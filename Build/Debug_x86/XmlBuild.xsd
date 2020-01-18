@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="gb2312"?>
+<xs:schema attributeFormDefault="unqualified" 
+		   elementFormDefault="qualified" 
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns="KleiAnim/XmlBuild"
+		   targetNamespace="KleiAnim/XmlBuild"
+		   >
+
+	<xs:complexType name="frame_t">
+		<xs:attribute name="framenum" type="xs:unsignedInt" use="required" />
+		<xs:attribute name="duration" type="xs:unsignedInt" use="required" />
+		<xs:attribute name="image" type="xs:string" use="required" />
+		<xs:attribute name="w" type="xs:float" use="required" />
+		<xs:attribute name="h" type="xs:float" use="required" />
+		<xs:attribute name="x" type="xs:float" use="required" />
+		<xs:attribute name="y" type="xs:float" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="symbol_t">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" name="Frame" type="frame_t" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+
+
+
+	<xs:element name="Build">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" name="Symbol" type="symbol_t" />
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

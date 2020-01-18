@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" 
+		   elementFormDefault="qualified" 
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   targetNamespace="KleiAnim/XmlAnimation"
+		   xmlns="KleiAnim/XmlAnimation"
+		   >
+	<xs:complexType name="elem_t">
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="layername" type="xs:string" use="required" />
+		<xs:attribute name="frame" type="xs:unsignedInt" use="required" />
+		<xs:attribute name="z_index" type="xs:unsignedInt" use="required" />
+		<xs:attribute name="m_a" type="xs:float" use="required" />
+		<xs:attribute name="m_b" type="xs:float" use="required" />
+		<xs:attribute name="m_c" type="xs:float" use="required" />
+		<xs:attribute name="m_d" type="xs:float" use="required" />
+		<xs:attribute name="m_tx" type="xs:float" use="required" />
+		<xs:attribute name="m_ty" type="xs:float" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="frame_t">
+		<xs:sequence>
+			<xs:element name="event" maxOccurs="unbounded" minOccurs="0" type="xs:string"/>
+			<xs:element maxOccurs="unbounded" name="element" type="elem_t"/>
+		</xs:sequence>
+		<xs:attribute name="idx" type="xs:unsignedInt" use="required" />
+		<xs:attribute name="w" type="xs:float" use="required" />
+		<xs:attribute name="h" type="xs:float" use="required" />
+		<xs:attribute name="x" type="xs:float" use="required" />
+		<xs:attribute name="y" type="xs:float" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="anim_t">
+		<xs:sequence>
+			<xs:element maxOccurs="unbounded" name="frame" type="frame_t" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="root" type="xs:string" use="required" />
+		<xs:attribute name="numframes" type="xs:unsignedInt" use="required" />
+		<xs:attribute name="framerate" type="xs:float" use="required" />
+	</xs:complexType>
+
+
+	<xs:element name="Anims"><!--Root-->
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="anim" maxOccurs="unbounded" minOccurs="1" type="anim_t"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

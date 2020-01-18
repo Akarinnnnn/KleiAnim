@@ -1,0 +1,543 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        "klei_anim"
+    </assembly>
+    <members>
+        <member name="F:KleiAnim.Common.BuildBase.cur_version">
+            <summary>当前版本</summary>
+        </member>
+        <member name="F:KleiAnim.Common.BuildBase.valid_cc4">
+            <summary>合规文件的CC4，BILD</summary>
+        </member>
+        <member name="F:KleiAnim.Common.AnimationBase.animations">
+            <summary>animation</summary>
+        </member>
+        <member name="F:KleiAnim.Common.AnimationBase.cur_version">
+            <summary>当前版本</summary>
+        </member>
+        <member name="F:KleiAnim.Common.AnimationBase.valid_cc4">
+            <summary>合规文件的CC4，ANIM</summary>
+        </member>
+        <member name="M:KleiAnim.Common.op_Equality(KleiAnim.Common.ElementNode!System.Runtime.CompilerServices.IsConst*!System.Runtime.CompilerServices.IsImplicitlyDereferenced,KleiAnim.Common.ElementNode!System.Runtime.CompilerServices.IsConst*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+比较两个ElementNode是否相等
+</summary>
+            <param name="l">1</param>
+            <param name="r">2</param>
+            <returns>相等返回true，不相等返回false</returns>
+            <created>Fa鸽,2019/7/27</created>
+            <changed>Fa鸽,2019/7/27</changed>
+        </member>
+        <member name="M:KleiAnim.Common.ToString(KleiAnim.Common.ElementNode!System.Runtime.CompilerServices.IsConst*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+获取元素节点的字符串(<see cref="D:std.wstring" />)表示，仅支持wstring
+</summary>
+            <param name="elem">元素节点</param>
+            <returns>返回<see cref="D:std.wstring" />，建议配合std::move使用以避免构造开销</returns>
+            <example>
+                <c>wstring elem_str = std::move(ToString(elem));</c>
+            </example>
+            <created>Fa鸽,2019/7/27</created>
+            <changed>Fa鸽,2019/7/27</changed>
+        </member>
+        <member name="M:KleiAnim.Common.read_strhashtable(std.basic_ifstream&lt;System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte,std.char_traits{System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte}&gt;*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+读取哈希化的字符串表
+</summary>
+            <param name="f">文件流，必须行进到字符串表所在位置</param>
+            <returns>字符串表</returns>
+            <created>Fa鸽,2019/7/24</created>
+            <changed>Fa鸽,2019/7/24</changed>
+        </member>
+        <member name="M:KleiAnim.Common.read_str(std.basic_istream&lt;System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte,std.char_traits{System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte}&gt;*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+读取bin文件中的一条字符串（非哈希化字符串）
+</summary>
+            <param name="f">流，必须行进到字符串所在的位置</param>
+            <returns>读取出的字符串</returns>
+            <created>Fa鸽,2019/7/24</created>
+            <changed>Fa鸽,2019/7/24</changed>
+        </member>
+        <member name="M:KleiAnim.Common.hash(std.basic_string&lt;System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte,std.char_traits{System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte},std.allocator&lt;System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte&gt;&gt;*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+计算字符串的哈希值
+</summary>
+            <param name="s">将计算哈希的字符串</param>
+            <returns>哈希值</returns>
+            <created>Fa鸽,2019/7/22</created>
+            <changed>Fa鸽,2019/7/22</changed>
+            <summary>
+计算字符串的哈希值
+</summary>
+            <param name="s">将计算哈希的字符串</param>
+            <returns>哈希值</returns>
+            <created>Fa鸽,2019/7/22</created>
+            <changed>Fa鸽,2019/7/22</changed>
+        </member>
+        <member name="T:KleiAnim.Common.AtlasNode">
+            <summary>
+Atlas
+</summary>
+        </member>
+        <member name="F:KleiAnim.Common.AnimationNode.frame_rate">
+            <summary>帧率</summary>
+        </member>
+        <member name="F:KleiAnim.Common.AnimationNode.rootsym_hash">
+            <summary>根符号哈希</summary>
+        </member>
+        <member name="F:KleiAnim.Common.AnimationNode.facing">
+            <summary>朝向</summary>
+        </member>
+        <member name="T:KleiAnim.Common.AnimationNode">
+            <summary>
+动画节点
+</summary>
+        </member>
+        <member name="T:KleiAnim.Common.AnimationFrameNode">
+            <summary>
+Animation中的帧节点
+</summary>
+        </member>
+        <member name="F:KleiAnim.Common.ElementNode.name_hash">
+            <summary>哈希</summary>
+        </member>
+        <member name="T:KleiAnim.Common.ElementNode">
+            <summary>
+元素节点
+</summary>
+        </member>
+        <member name="F:KleiAnim.Common.EventNode.name_hash">
+            <summary>名称的哈希</summary>
+        </member>
+        <member name="T:KleiAnim.Common.EventNode">
+            <summary>
+事件节点
+</summary>
+        </member>
+        <member name="T:KleiAnim.Common.SymbolNode">
+            <summary>
+符号节点
+</summary>
+        </member>
+        <member name="F:KleiAnim.Common.BuildFrameNode.x">
+            <summary>bbox xywh参数</summary>
+        </member>
+        <member name="F:KleiAnim.Common.BuildFrameNode.duration">
+            <summary>持续时间</summary>
+        </member>
+        <member name="F:KleiAnim.Common.BuildFrameNode.frame_number">
+            <summary>帧号</summary>
+        </member>
+        <member name="T:KleiAnim.Common.BuildFrameNode">
+            <summary>
+Build中的帧节点
+</summary>
+        </member>
+        <member name="T:KleiAnim.Common.AlphaVertexNode">
+            <summary>
+OpenGL顶点
+</summary>
+        </member>
+        <member name="F:KleiAnim.Common.BinaryFileBase.str_table">
+            <summary>哈希化字符串表</summary>
+        </member>
+        <member name="T:KleiAnim.Common.BinaryFileBase">
+            <summary>
+动画用bin文件的共用部分
+</summary>
+        </member>
+        <member name="T:KleiAnim.Common.Facing">
+            <summary>
+图片朝向，Flag
+</summary>
+        </member>
+        <member name="F:Invalid">
+            <summary>这不可能！！</summary>
+        </member>
+        <member name="F:All">
+            <summary>所有朝向</summary>
+        </member>
+        <member name="F:All45">
+            <summary>四个角</summary>
+        </member>
+        <member name="F:All90">
+            <summary>上下左右</summary>
+        </member>
+        <member name="F:DownLeft">
+            <summary>左下</summary>
+        </member>
+        <member name="F:DownRight">
+            <summary>右下</summary>
+        </member>
+        <member name="F:UpLeft">
+            <summary>左上</summary>
+        </member>
+        <member name="F:UpRight">
+            <summary>右上</summary>
+        </member>
+        <member name="F:Down">
+            <summary>下</summary>
+        </member>
+        <member name="F:Left">
+            <summary>左</summary>
+        </member>
+        <member name="F:Up">
+            <summary>上</summary>
+        </member>
+        <member name="F:Right">
+            <summary>右</summary>
+        </member>
+        <member name="T:KleiAnim.Common.WideCharLog">
+            <summary>
+若要改变KleiAnim的日志输出，只需在调用KleiAnim之前构造一个实例
+</summary>
+        </member>
+        <member name="T:KleiAnim.Common.CharLog">
+            <summary>
+若要改变KleiAnim的日志输出，只需在调用KleiAnim之前构造一个实例
+</summary>
+        </member>
+        <member name="F:KleiAnim.Binary.BuildWriter.out">
+            <summary>输出文件的路径</summary>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildWriter.add(std.array&lt;KleiAnim.Common.AlphaVertexNode,0x06&gt;!System.Runtime.CompilerServices.IsConst*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+添加一组（6个）顶点三角形
+</summary>
+            <param name="vertices">数组</param>
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildWriter.add(KleiAnim.Common.AtlasNode*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+添加一个atlas
+</summary>
+            <param name="atlas" />
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildWriter.add(KleiAnim.Common.AlphaVertexNode*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+添加一个顶点三角形
+</summary>
+            <param name="vert" />
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildWriter.add(KleiAnim.Common.SymbolNode*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+添加一个符号
+</summary>
+            <param name="frame" />
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildWriter.writestream(std.basic_ostream&lt;System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte,std.char_traits{System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte}&gt;*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+将内容写入到流
+</summary>
+            <param name="out" />
+            <created>Fa鸽,2019/8/17</created>
+            <changed>Fa鸽,2019/8/17</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildWriter.writefile">
+            <summary>
+将内容写入到文件
+</summary>
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildWriter.#ctor(std.filesystem.path!System.Runtime.CompilerServices.IsConst*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+以指定的输出路径构造BuildWriter
+</summary>
+            <param name="out">输出的路径，含文件名</param>
+            <returns />
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="T:KleiAnim.Binary.BuildWriter">
+            <summary>
+创建build.bin，用于写入指定的文件/流
+</summary>
+        </member>
+        <member name="F:KleiAnim.Binary.AnimationWriter.out">
+            <summary>输出文件的路径</summary>
+        </member>
+        <member name="M:KleiAnim.Binary.AnimationWriter.add(KleiAnim.Common.AnimationNode*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+添加一段动画
+</summary>
+            <param name="anim">待添加的动画</param>
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.AnimationWriter.writestream(std.basic_ostream&lt;System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte,std.char_traits{System.SByte!System.Runtime.CompilerServices.IsSignUnspecifiedByte}&gt;*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+将内容写入到流
+</summary>
+            <param name="out" />
+            <created>Fa鸽,2019/8/17</created>
+            <changed>Fa鸽,2019/8/17</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.AnimationWriter.writefile">
+            <summary>
+将内容写入到文件
+</summary>
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.AnimationWriter.#ctor(std.filesystem.path!System.Runtime.CompilerServices.IsConst*!System.Runtime.CompilerServices.IsImplicitlyDereferenced)">
+            <summary>
+以指定的输出路径构造AnimationWriter
+</summary>
+            <param name="out">输出的路径，含文件名</param>
+            <returns />
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="T:KleiAnim.Binary.AnimationWriter">
+            <summary>
+创建anim.bin，用于写入指定的文件/流
+</summary>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildReader.de_hash(System.UInt32!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+返回hash对应的字符串，建议结合std::move使用
+</summary>
+            <param name="hash">哈希值</param>
+            <returns>std::string</returns>
+            <example>
+                <c>string name = std::move(anim.de_hash(name_hash));</c>
+            </example>
+            <created>Fa鸽,2019/7/29</created>
+            <changed>Fa鸽,2019/10/1</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildReader.frame(System.UInt64!System.Runtime.CompilerServices.IsConst,System.UInt64!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+获取sym 符号的 i 帧
+</summary>
+            <param name="sym" />
+            <param name="i" />
+            <returns />
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildReader.vertices(System.UInt32!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+获取第i组顶点三角形
+</summary>
+            <returns>std::array，不是内置数组</returns>
+            <example>
+                <c>for(auto&amp; vertex: bin.vertices(0))</c>
+            </example>
+            <param name="start">第i组</param>
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildReader.vertex(System.UInt64!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+获取 i 号顶点三角形
+</summary>
+            <param name="i" />
+            <returns />
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildReader.atlas(System.UInt64!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+获取 i 号atlas
+</summary>
+            <param name="i" />
+            <returns />
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildReader.op_Subscript(System.UInt64!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+获取 i 号 符号
+</summary>
+            <param name="i" />
+            <returns />
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildReader.symbol(System.UInt64!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+获取 i 号 符号
+</summary>
+            <param name="i" />
+            <returns />
+            <created>Fa鸽,2019/7/31</created>
+            <changed>Fa鸽,2019/7/31</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildReader.name">
+            <summary>
+名称
+</summary>
+            <returns />
+            <created>Fa鸽,2019/8/2</created>
+            <changed>Fa鸽,2019/8/2</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.BuildReader.license_hash">
+            <summary>
+获取常见许可信息的hash
+</summary>
+            <returns>找不到为0</returns>
+            <created>Fa鸽,2020/1/18</created>
+            <changed>Fa鸽,2020/1/18</changed>
+        </member>
+        <member name="T:KleiAnim.Binary.BuildReader">
+            <summary>
+build.bin读取器
+</summary>
+        </member>
+        <member name="M:KleiAnim.Binary.AnimationReader.element_refs(System.UInt64!System.Runtime.CompilerServices.IsConst,System.UInt64!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+获取anim号动画，第frame帧的元素引用
+</summary>
+            <param name="anim" />
+            <param name="frame" />
+            <returns />
+            <created>Fa鸽,2019/7/29</created>
+            <changed>Fa鸽,2019/7/29</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.AnimationReader.events(System.UInt64!System.Runtime.CompilerServices.IsConst,System.UInt64!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+获取anim号动画，第frame帧的事件（一般的动画没有）
+</summary>
+            <param name="anim" />
+            <param name="frame" />
+            <returns />
+            <created>Fa鸽,2019/7/29</created>
+            <changed>Fa鸽,2019/7/29</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.AnimationReader.frame(System.UInt64!System.Runtime.CompilerServices.IsConst,System.UInt64!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+获取相应动画的第frame帧
+</summary>
+            <param name="anim">动画序号</param>
+            <param name="i">帧序号</param>
+            <returns />
+            <created>Fa鸽,2019/7/29</created>
+            <changed>Fa鸽,2019/7/29</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.AnimationReader.op_Subscript(System.UInt64!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+获取i号动画，与animation(size_t i)相同
+</summary>
+            <param name="i" />
+            <returns />
+            <created>Fa鸽,2019/7/29</created>
+            <changed>Fa鸽,2019/7/29</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.AnimationReader.animation(System.UInt64!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+获取i号动画
+</summary>
+            <param name="i" />
+            <returns />
+            <created>Fa鸽,2019/7/29</created>
+            <changed>Fa鸽,2019/7/29</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.AnimationReader.de_hash(System.UInt32!System.Runtime.CompilerServices.IsConst)">
+            <summary>
+返回hash对应的字符串，建议结合std::move使用
+</summary>
+            <example>
+                <c>string name = std::move(anim.de_hash(name_hash));</c>
+            </example>
+            <param name="hash">哈希值</param>
+            <returns />
+            <created>Fa鸽,2019/7/29</created>
+            <changed>Fa鸽,2019/7/29</changed>
+        </member>
+        <member name="M:KleiAnim.Binary.AnimationReader.license_hash">
+            <summary>
+获取常见许可信息的hash
+</summary>
+            <returns>找不到为0</returns>
+            <created>Fa鸽,2020/1/18</created>
+            <changed>Fa鸽,2020/1/18</changed>
+        </member>
+        <member name="T:KleiAnim.Binary.AnimationReader">
+            <summary>
+anim.bin读取器
+</summary>
+        </member>
+        <member name="M:KleiAnim.Binary.CheckFileType(std.filesystem.path)">
+            <summary>
+检查bin文件的类型
+</summary>
+            <param name="filepath">路径</param>
+            <returns />
+            <created>Fa鸽,2019/10/2</created>
+            <changed>Fa鸽,2019/10/2</changed>
+        </member>
+        <member name="T:KleiAnim.Binary.BinaryType">
+            <summary>
+.bin文件的类型
+</summary>
+        </member>
+        <member name="F:Animation">
+            <summary>Animation</summary>
+        </member>
+        <member name="F:Build">
+            <summary>Build</summary>
+        </member>
+        <member name="F:Neither">
+            <summary>假的</summary>
+        </member>
+        <member name="M:__empty_global_delete(System.Void*)">
+ Copyright (c) 2006-2019 Arseny Kapoulkine
+
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software and associated documentation
+ files (the "Software"), to deal in the Software without
+ restriction, including without limitation the rights to use,
+ copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following
+ conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ OTHER DEALINGS IN THE SOFTWARE.
+
+</member>
+        <member name="M:_wassert(System.Char!System.Runtime.CompilerServices.IsConst*,System.Char!System.Runtime.CompilerServices.IsConst*,System.UInt32)">
+ Copyright (c) 2006-2019 Arseny Kapoulkine
+
+ Permission is hereby granted, free of charge, to any person
+ obtaining a copy of this software and associated documentation
+ files (the "Software"), to deal in the Software without
+ restriction, including without limitation the rights to use,
+ copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following
+ conditions:
+
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ OTHER DEALINGS IN THE SOFTWARE.
+
+</member>
+    </members>
+</doc>

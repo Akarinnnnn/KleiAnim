@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+	<RunConfiguration>
+		<MaxCpuCount>8</MaxCpuCount>
+		<ResultsDirectory>.\TestResults</ResultsDirectory>
+		<TargetPlatform>x86</TargetPlatform>
+		<TestSessionTimeout>60000</TestSessionTimeout>
+	</RunConfiguration>
+</RunSettings>

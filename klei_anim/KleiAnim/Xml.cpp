@@ -29,6 +29,7 @@ std::wstring LicenseFromHash(uint32_t hash)
 	case common_license_hash[2]:
 		return L"SPDX-License-Identifier: GPL-3.0-or-later";
 	default:
+		return L"";
 		break;
 	}
 }

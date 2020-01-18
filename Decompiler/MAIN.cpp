@@ -21,12 +21,16 @@ int wmain(int argc,wchar_t** argv)
 
 	parser.Parse(argc, argv);
 
-	path input = parser.GetString(L"in");
-	path out = parser.GetString(L"out");
-	if (out == L"")
-		out = input / L"反编译输出\\";
-
-
+	path input = std::filesystem::canonical(parser.GetString(L"in"));
+	std::wstring out = parser.GetString(L"out");
+	if (out[0] == L'\0')
+		out = std::filesystem::absolute(input / L"反编译输出\\");
+	std::filesystem::create_directory(out);//先创建文件夹，fopen等才能自动创建文件
+	{
+		using namespace KleiAnim::XML;
+		AnimBin2XML(input / L"anim.bin", out / path(L"anim.xml"));
+		BuildBin2XML(input / L"build.bin", out / path(L"build.xml"));
+	}
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单

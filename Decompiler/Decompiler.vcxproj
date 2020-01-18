@@ -156,12 +156,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Decompiler.cpp" />
+    <ClCompile Include="arg_parser.cpp" />
+    <ClCompile Include="MAIN.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\klei_anim\klei_anim.vcxproj">
       <Project>{859dbf5c-ce25-4db1-9789-5063ca14a0ee}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="arg_parser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

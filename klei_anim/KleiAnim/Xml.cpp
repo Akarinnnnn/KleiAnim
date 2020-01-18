@@ -33,14 +33,14 @@ std::wstring LicenseFromHash(uint32_t hash)
 	}
 }
 
-void KleiAnim::AnimBin2XML(std::filesystem::path binary, std::filesystem::path xmlpath)
+void KleiAnim::XML::AnimBin2XML(std::filesystem::path binary, std::filesystem::path xmlpath)
 {
 	Binary::AnimationReader bin(binary);
 	//static_cast不行,dymanic_cast没有虚函数不能用
 	AnimBin2XML(bin, xmlpath);
 }
 
-void KleiAnim::AnimBin2XML(Binary::AnimationReader& binary, std::filesystem::path xmlpath)
+void KleiAnim::XML::AnimBin2XML(Binary::AnimationReader& binary, std::filesystem::path xmlpath)
 {
 	pugi::xml_document doc;
 	auto anims = doc.append_child("Anims");
@@ -106,25 +106,25 @@ void KleiAnim::AnimBin2XML(Binary::AnimationReader& binary, std::filesystem::pat
 	doc.save_file(xmlpath.c_str(), "  ", 1u, pugi::encoding_utf8);
 }
 
-void KleiAnim::AnimBin2XML(Common::AnimationBase& binary, std::filesystem::path xmlpath)
+void KleiAnim::XML::AnimBin2XML(Common::AnimationBase& binary, std::filesystem::path xmlpath)
 {
 	Binary::AnimationReader reader(binary);
 	AnimBin2XML(reader, xmlpath);
 }
 
-void KleiAnim::BuildBin2XML(std::filesystem::path binary, std::filesystem::path xmlpath)
+void KleiAnim::XML::BuildBin2XML(std::filesystem::path binary, std::filesystem::path xmlpath)
 {
 	Binary::BuildReader bin(binary);
 	BuildBin2XML(bin, xmlpath);
 }
 
-void KleiAnim::BuildBin2XML(Common::BuildBase& binary, std::filesystem::path xmlpath)
+void KleiAnim::XML::BuildBin2XML(Common::BuildBase& binary, std::filesystem::path xmlpath)
 {
 	Binary::BuildReader bin(binary);
 	BuildBin2XML(bin, xmlpath);
 }
 
-void KleiAnim::BuildBin2XML(Binary::BuildReader& binary, std::filesystem::path xmlpath)
+void KleiAnim::XML::BuildBin2XML(Binary::BuildReader& binary, std::filesystem::path xmlpath)
 {
 	pugi::xml_document doc;
 	auto xroot = doc.append_child("Build");
@@ -245,7 +245,7 @@ void anim2bin(pugi::xml_document& doc, path&& outfile)
 	//throw std::exception(__FUNCTION__"\n----------NOT IMPLEMENTED----------");
 }
 
-void KleiAnim::XML2Bin(std::filesystem::path xmlpath, std::filesystem::path outdir)
+void KleiAnim::XML::XML2Bin(std::filesystem::path xmlpath, std::filesystem::path outdir)
 {
 	using namespace std::string_literals;
 	using pugi::xml_node;
@@ -273,17 +273,17 @@ void KleiAnim::XML2Bin(std::filesystem::path xmlpath, std::filesystem::path outd
 	throw std::invalid_argument("这可能是个假的xml文档，路径：" + outdir.string());
 }
 
-EXPORT_API void KleiAnim::AnimBin2XML(const char8_t* in_path, const char8_t* out_path)
+EXPORT_API void KleiAnim::XML::AnimBin2XML(const char8_t* in_path, const char8_t* out_path)
 {
 	AnimBin2XML(path(in_path), path(out_path));
 }
 
-EXPORT_API void KleiAnim::BuildBin2XML(const char8_t* in_path, const char8_t* out_path)
+EXPORT_API void KleiAnim::XML::BuildBin2XML(const char8_t* in_path, const char8_t* out_path)
 {
 	BuildBin2XML(path(in_path), path(out_path));
 }
 
-EXPORT_API void KleiAnim::XML2Bin(const char8_t* in_path, const char8_t* out_path)
+EXPORT_API void KleiAnim::XML::XML2Bin(const char8_t* in_path, const char8_t* out_path)
 {
 	XML2Bin(path(in_path), path(out_path));
 }

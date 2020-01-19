@@ -201,6 +201,12 @@ void build2bin(pugi::xml_document& doc, path&& outfile)
 		auto xframes = xsym.children("Frame");
 
 		Common::BuildFrameNode frame{};
+#ifdef _AMD64_
+		sym.frames.resize(xsym.attribute("numframes").as_ullong());
+#elif defined(_X86_)
+		sym.frames.resize(xsym.attribute("numframes").as_uint());
+#endif // _AMD64_
+
 		for (auto& xframe : xframes)
 		{
 			frame.x = xframe.attribute("x").as_float();
@@ -211,7 +217,7 @@ void build2bin(pugi::xml_document& doc, path&& outfile)
 			frame.frame_number = xframe.attribute("framenum").as_uint();
 			frame.duration = xframe.attribute("duration").as_uint();
 
-			sym.frames.push_back(frame);
+			sym.frames[xframe.attribute("framenum").as_uint()] = frame;
 		}
 
 		file.add(sym);
@@ -232,6 +238,7 @@ void anim2bin(pugi::xml_document& doc, path&& outfile)
 	Common::AnimationNode anim{};
 
 	auto xanims = doc.select_nodes("Anims/anim");
+	uint32_t unique_frameidx = 0;
 	for (auto& _xanim : xanims)
 	{
 		pugi::xml_node xanim = _xanim.node();
@@ -247,12 +254,8 @@ void anim2bin(pugi::xml_document& doc, path&& outfile)
 		anim.frame_rate = xanim.attribute("framerate").as_float();
 
 		Common::AnimationFrameNode frame;
-
-#ifdef _AMD64_
-		anim.frames.resize(xanim.attribute("numframes").as_ullong());
-#elif defined(_X86_)
-		anim.frames.resize(xanim.attribute("numframes").as_uint());
-#endif // _AMD64_
+		auto framecount = xanim.attribute("numframes").as_uint();
+		anim.frames.resize(framecount);		
 
 		for (auto& _xframe : xanim.select_nodes("frame"))
 		{
@@ -300,12 +303,9 @@ void anim2bin(pugi::xml_document& doc, path&& outfile)
 				elem.frame = xelem.attribute("frame").as_uint();
 			}
 
-			anim.frames[xframe.attribute("idx").as_uint()] = frame;
+			anim.frames[xframe.attribute("idx").as_uint() - unique_frameidx] = frame;
 		}
-
-		//std::sort()
-		//[](Common::FrameNode) ->bool{}
-		//std::sort(, anim.frames.begin(), anim.frames.end())
+		unique_frameidx += framecount;
 
 		file.add(anim);
 	}

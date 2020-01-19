@@ -152,13 +152,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\Decompiler\arg_parser.cpp" />
-    <ClCompile Include="xscmld.cpp" />
+    <ClCompile Include="MAIN.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Decompiler\arg_parser.h" />
+    <ClInclude Include="decompile.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

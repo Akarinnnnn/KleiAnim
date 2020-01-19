@@ -15,10 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="xscmld.cpp">
+    <ClCompile Include="..\Decompiler\arg_parser.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\Decompiler\arg_parser.cpp">
+    <ClCompile Include="MAIN.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -27,6 +27,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Decompiler\arg_parser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="decompile.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

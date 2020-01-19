@@ -5,6 +5,8 @@
 #include <filesystem>
 #include "../Decompiler/arg_parser.h"
 #include "../klei_anim/KleiAnim/Binary.hpp"
+#include "decompile.hpp"
+#include <pugixml.hpp>
 
 wchar_t helpmsg[] =
 L"帮助信息\n"
@@ -12,10 +14,47 @@ L"帮助信息\n"
 "/in ，存放将要反编译动画包的文件夹\n"
 "/out ，可选，输出scml的路径\n\n\n";
 using std::filesystem::path;
-__declspec(dllexport) void decompile_scml(path animation,path build)
-{
 
+void KleiAnim::Tool::decompile_scml(path animation, path buildpath)
+{
+	pugi::xml_document scml;
+	auto scml_root = scml.append_child("spriter_data");
+	scml_root.append_attribute("scml_version").set_value("1.0");
+	scml_root.append_attribute("generator").set_value("KleiAnim.xscmld");
+	scml_root.append_attribute("generator_version").set_value("1.0.0");
+
+	Binary::BuildReader build(buildpath);
+	Binary::AnimationReader anim(animation);
+
+	{
+		static path picpath(L"pictures");
+
+		auto pics = scml_root.append_child("folder");
+		pics.append_attribute("id").set_value("0");
+		pics.append_attribute("name").set_value("pictures");
+
+		unsigned int picid = 0;
+		for (auto& symbol : build)
+		{
+			auto file = pics.append_child("file");
+			file.append_attribute("name").set_value((picpath / build.de_hash(symbol.name_hash)).c_str());
+			file.append_attribute("id").set_value(picid);
+			
+			if (symbol.frames.size() == 1)
+			{
+				auto frame0 = symbol.frames[0];
+				file.append_attribute("width").set_value(frame0.w);
+				file.append_attribute("height").set_value(frame0.h);
+				//TODO
+			}
+			else
+			{
+				//TODO:多帧
+			}
+		}
+	}
 }
+
 
 int wmain(int argc,wchar_t** argv)
 {

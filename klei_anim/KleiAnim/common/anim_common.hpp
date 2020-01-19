@@ -299,7 +299,7 @@ namespace KleiAnim
 
 			for (size_t i = 0; i < size; i++)
 				if (*(l + i) != *(r + i)) return false;
-
+			return true;
 		}
 
 		

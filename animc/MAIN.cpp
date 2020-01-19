@@ -20,29 +20,29 @@ int wmain(int argc,wchar_t** argv)
 	parser.AddString(L"out");
 
 	parser.Parse(argc, argv);
-
+	try
+	{
 	path build = std::filesystem::canonical(parser.GetString(L"build"));
 	path anim = std::filesystem::canonical(parser.GetString(L"anim"));
 	std::wstring out = parser.GetString(L"out");
 
 	if (out[0] == L'\0')
 		out = std::filesystem::absolute(anim.parent_path() / L"编译输出\\");
-
 	{
 		std::filesystem::create_directory(out);
 
 		using namespace KleiAnim::XML;
-		try
-		{
-			XML2Bin(anim, out / path(L"anim.xml"));
-			XML2Bin(build, out / path(L"build.xml"));
-		}
-		catch (const std::exception& e)
-		{
-			std::cout << e.what();
-		}
-	}
+		try { XML2Bin(anim, out / path(L"anim.bin")); }
+		catch (const std::exception & e) { std::cout << e.what() << std::endl; }
 
+		try { XML2Bin(build, out / path(L"build.bin")); }
+		catch (const std::exception & e) { std::cout << e.what() << std::endl; }
+	}
+	}
+	catch (const std::exception & e)
+	{
+		std::cout << e.what() << std::endl;
+	}
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单

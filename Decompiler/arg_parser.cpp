@@ -57,7 +57,7 @@ void ArgumentParser::Parse(int argc, wchar_t** argv)
 	}
 
 
-	for (wchar_t **it =argv + 1;it != argv + argc;it++)
+	for (wchar_t **it =argv + 1;it < argv + argc;it++)
 	{
 #pragma warning(push)
 #pragma warning (disable:6289)
@@ -69,12 +69,10 @@ void ArgumentParser::Parse(int argc, wchar_t** argv)
 			for (auto& integer : integers)
 			{
 				if (integer.k == name) integer.v = std::stoull(value);
-				continue;
 			}
 			for (auto& string : strings)
 			{
 				if (string.k == name) string.v = value;
-				continue;
 			}
 		} 
 		else continue;

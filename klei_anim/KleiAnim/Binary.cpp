@@ -462,6 +462,8 @@ void KleiAnim::Binary::AnimationWriter::writefile()
 		path out = ".\\默认输出\\anim-" + animations[0].name + ".bin";
 		KleiAnimLog::write() << LOG("打开失败，指定的路径为:") << this->out << LOG("\n输出到默认路径:") << out;
 		file.open(out, ios::binary | ios::trunc | ios::out);
+		if (!file.is_open())
+			throw std::system_error(std::make_error_code(std::errc(errno)));
 	}
 	writestream(file);
 	file.close();

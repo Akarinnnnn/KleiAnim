@@ -181,10 +181,10 @@ void build2bin(pugi::xml_document& doc, path&& outfile)
 	using namespace KleiAnim;
 	using KleiAnim::Common::hash;
 
-	Binary::BuildWriter wb(outfile);
-	
+	Binary::BuildWriter file(outfile);
+	file.out = outfile;
 
-	wb.build_name = doc.child("Build").attribute("name").as_string();
+	file.build_name = doc.child("Build").attribute("name").as_string();
 
 	auto xsyms = doc.select_nodes("Build/Symbol");//xml symbols
 
@@ -196,7 +196,7 @@ void build2bin(pugi::xml_document& doc, path&& outfile)
 
 		unsigned int name_hash = hash(sym_name);
 		sym.name_hash = name_hash;
-		wb.add_hashstringpair(name_hash, sym_name);
+		file.add_hashstringpair(name_hash, sym_name);
 
 		auto xframes = xsym.children("Frame");
 
@@ -214,10 +214,10 @@ void build2bin(pugi::xml_document& doc, path&& outfile)
 			sym.frames.push_back(frame);
 		}
 
-		wb.add(sym);
+		file.add(sym);
 	}
 
-	wb.writefile();
+	file.writefile();
 }
 
 void anim2bin(pugi::xml_document& doc, path&& outfile)
@@ -228,6 +228,7 @@ void anim2bin(pugi::xml_document& doc, path&& outfile)
 	using uint = unsigned int;
 
 	Binary::AnimationWriter file(outfile);
+	file.out = outfile;
 	Common::AnimationNode anim{};
 
 	auto xanims = doc.select_nodes("Anims/anim");
@@ -246,7 +247,13 @@ void anim2bin(pugi::xml_document& doc, path&& outfile)
 		anim.frame_rate = xanim.attribute("framerate").as_float();
 
 		Common::AnimationFrameNode frame;
-		std::list<Common::AnimationFrameNode> frames;
+
+#ifdef _AMD64_
+		anim.frames.resize(xanim.attribute("numframes").as_ullong());
+#elif defined(_X86_)
+		anim.frames.resize(xanim.attribute("numframes").as_uint());
+#endif // _AMD64_
+
 		for (auto& _xframe : xanim.select_nodes("frame"))
 		{
 			auto xframe = _xframe.node();
@@ -293,14 +300,12 @@ void anim2bin(pugi::xml_document& doc, path&& outfile)
 				elem.frame = xelem.attribute("frame").as_uint();
 			}
 
-			size_t now = 0;
-			uint32_t index = xframe.attribute("idx").as_uint();
-			auto place = frames.begin();
-			for (; now < index; ++now, ++place);
-			frames.insert(place, frame);
+			anim.frames[xframe.attribute("idx").as_uint()] = frame;
 		}
 
-		anim.frames.assign(frames.begin(), frames.end());
+		//std::sort()
+		//[](Common::FrameNode) ->bool{}
+		//std::sort(, anim.frames.begin(), anim.frames.end())
 
 		file.add(anim);
 	}

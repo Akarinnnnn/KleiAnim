@@ -14,6 +14,13 @@ L"帮助信息\n"
 "/out ，可选，输出文件夹\n\n\n";
 int wmain(int argc,wchar_t** argv)
 {
+#pragma warning(push)
+#pragma warning (disable:26444)
+	std::wcout.imbue(std::locale(""));
+#pragma warning(pop)
+	{
+		KleiAnim::Common::WideCharLog a(std::wcout);
+	}
 	ArgumentParser parser;
 	parser.SetHelpMessage(helpmsg);
 	parser.AddString(L"in");

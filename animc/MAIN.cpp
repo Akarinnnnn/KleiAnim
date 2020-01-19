@@ -13,6 +13,13 @@ L"帮助信息\n"
 "/out ，可选，输出文件夹\n\n\n";
 int wmain(int argc,wchar_t** argv)
 {
+#pragma warning(push)
+#pragma warning (disable:26444)
+	std::wcout.imbue(std::locale(""));
+#pragma warning(pop)
+	{
+		KleiAnim::Common::WideCharLog a(std::wcout);
+	}
 	ArgumentParser parser;
 	parser.SetHelpMessage(helpmsg);
 	parser.AddString(L"anim");
@@ -32,10 +39,10 @@ int wmain(int argc,wchar_t** argv)
 		std::filesystem::create_directory(out);
 
 		using namespace KleiAnim::XML;
-		try { XML2Bin(anim, out / path(L"anim.bin")); }
+		try { XML2Bin(anim, out); }
 		catch (const std::exception & e) { std::cout << e.what() << std::endl; }
 
-		try { XML2Bin(build, out / path(L"build.bin")); }
+		try { XML2Bin(build, out); }
 		catch (const std::exception & e) { std::cout << e.what() << std::endl; }
 	}
 	}

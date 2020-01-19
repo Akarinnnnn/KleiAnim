@@ -23,7 +23,7 @@
 			<xs:element name="event" maxOccurs="unbounded" minOccurs="0" type="xs:string"/>
 			<xs:element name="element" maxOccurs="unbounded" type="elem_t"/>
 		</xs:sequence>
-		<xs:attribute name="idx" type="xs:unsignedInt" use="required" />
+		<xs:attribute name="idx" type="xs:unsignedInt" use="required" /><!--index-->
 		<xs:attribute name="w" type="xs:float" use="required" />
 		<xs:attribute name="h" type="xs:float" use="required" />
 		<xs:attribute name="x" type="xs:float" use="required" />

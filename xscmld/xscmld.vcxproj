@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{D5251605-92C7-4E5B-A5E2-4A354D1C7EBB}</ProjectGuid>
+    <ProjectGuid>{0DBE9386-044D-4905-BAE6-1F8272B86F7F}</ProjectGuid>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>KleiAnimNET</RootNamespace>

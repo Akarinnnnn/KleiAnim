@@ -245,7 +245,7 @@ uint32_t KleiAnim::Binary::AnimationReader::license_hash() const
 	return 0;
 }
 
-std::string KleiAnim::Binary::AnimationReader::de_hash(const unsigned int hash) const
+const std::string & KleiAnim::Binary::AnimationReader::de_hash(const unsigned int hash) const
 {
 	return str_table.at(hash);
 }

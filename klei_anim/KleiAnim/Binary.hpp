@@ -69,7 +69,7 @@ namespace KleiAnim
 			/// <returns></returns>
 			/// <created>Fa∏Î,2019/7/29</created>
 			/// <changed>Fa∏Î,2019/7/29</changed>
-			std::string de_hash(const unsigned int hash) const;
+			const std::string & de_hash(const unsigned int hash) const;
 
 			/// <summary>
 			/// ªÒ»°i∫≈∂Øª≠

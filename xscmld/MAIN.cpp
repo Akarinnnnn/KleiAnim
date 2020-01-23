@@ -79,8 +79,7 @@ void KleiAnim::Tool::decompile_scml(path animation, path buildpath, float framer
 			//默认帧率30fps
 			float interp_rate = framerate / animnode.frame_rate;
 			{
-				//TODO: 了解timeline的作用
-				uint32_t idx = 0;
+				//TODO: 单物件的动画时间轴
 				for (auto& frame : animnode.frames)
 				{
 					auto kf = mainline.append_child("key");//kf = key frame 关键帧
@@ -90,8 +89,8 @@ void KleiAnim::Tool::decompile_scml(path animation, path buildpath, float framer
 						xobj.append_attribute("folder").set_value("0");
 
 					}
-
 				}
+				//TODO: 组装mainline
 			}
 
 		}
@@ -108,25 +107,17 @@ int wmain(int argc,wchar_t** argv)
 	{ KleiAnim::Common::WideCharLog a(std::wcout); }
 	ArgumentParser parser;
 	parser.SetHelpMessage(helpmsg);
-	parser.AddString(L"in");
+	parser.AddString(L"anim");
+	parser.AddString(L"build");
 	parser.AddString(L"out");
 
 	parser.Parse(argc, argv);
 
 	std::wstring out = parser.GetString(L"out");
-	path in = parser.GetString(L"in");
+	path anim = parser.GetString(L"anim");
+	path build = parser.GetString(L"build");
 	if (out[0] == L'\0')
-		out = std::filesystem::absolute(in.parent_path() / L"编译输出\\");
+		out = std::filesystem::absolute(anim.parent_path() / L"编译输出\\");
 
+	KleiAnim::Tool::decompile_scml(anim, build);
 }
-
-// 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
-// 调试程序: F5 或调试 >“开始调试”菜单
-
-// 入门使用技巧: 
-//   1. 使用解决方案资源管理器窗口添加/管理文件
-//   2. 使用团队资源管理器窗口连接到源代码管理
-//   3. 使用输出窗口查看生成输出和其他消息
-//   4. 使用错误列表窗口查看错误
-//   5. 转到“项目”>“添加新项”以创建新的代码文件，或转到“项目”>“添加现有项”以将现有代码文件添加到项目
-//   6. 将来，若要再次打开此项目，请转到“文件”>“打开”>“项目”并选择 .sln 文件

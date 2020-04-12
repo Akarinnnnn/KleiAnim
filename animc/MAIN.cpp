@@ -13,13 +13,6 @@ L"帮助信息\n"
 "/out ，可选，输出文件夹\n\n\n";
 int wmain(int argc,wchar_t** argv)
 {
-#pragma warning(push)
-#pragma warning (disable:26444)
-	std::wcout.imbue(std::locale(""));
-#pragma warning(pop)
-	{
-		KleiAnim::Common::WideCharLog a(std::wcout);
-	}
 	ArgumentParser parser;
 	parser.SetHelpMessage(helpmsg);
 	parser.AddString(L"anim");
@@ -29,22 +22,23 @@ int wmain(int argc,wchar_t** argv)
 	parser.Parse(argc, argv);
 	try
 	{
-	path build = std::filesystem::canonical(parser.GetString(L"build"));
-	path anim = std::filesystem::canonical(parser.GetString(L"anim"));
-	std::wstring out = parser.GetString(L"out");
+		path build = std::filesystem::canonical(parser.GetString(L"build"));
+		path anim = std::filesystem::canonical(parser.GetString(L"anim"));
+		std::wstring out = parser.GetString(L"out");
 
-	if (out[0] == L'\0')
-		out = std::filesystem::absolute(anim.parent_path() / L"编译输出\\");
-	{
-		std::filesystem::create_directory(out);
+		if (out.empty() || out[0] == L'\0')
+			out = std::filesystem::absolute(anim.parent_path() / anim.parent_path().filename());
 
-		using namespace KleiAnim::XML;
-		try { XML2Bin(anim, out); }
-		catch (const std::exception & e) { std::cout << e.what() << std::endl; }
+		{
+			std::filesystem::create_directory(out);
 
-		try { XML2Bin(build, out); }
-		catch (const std::exception & e) { std::cout << e.what() << std::endl; }
-	}
+			using namespace KleiAnim::XML;
+			try { XML2Bin(anim, out); }
+			catch (const std::exception & e) { std::cout << e.what() << std::endl; }
+
+			try { XML2Bin(build, out); }
+			catch (const std::exception & e) { std::cout << e.what() << std::endl; }
+		}
 	}
 	catch (const std::exception & e)
 	{

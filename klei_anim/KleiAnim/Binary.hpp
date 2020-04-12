@@ -314,7 +314,7 @@ namespace KleiAnim
 			/// <param name="frame"></param>
 			/// <created>Fa鸽,2019/8/2</created>
 			/// <changed>Fa鸽,2019/8/2</changed>
-			void add(Common::SymbolNode& sym);
+			void add(const Common::SymbolNode& sym);
 
 			/// <summary>
 			/// 添加一个顶点三角形
@@ -322,7 +322,7 @@ namespace KleiAnim
 			/// <param name="vert"></param>
 			/// <created>Fa鸽,2019/8/2</created>
 			/// <changed>Fa鸽,2019/8/2</changed>
-			void add(Common::AlphaVertexNode& vert);
+			void add(const Common::AlphaVertexNode& vert);
 
 			/// <summary>
 			/// 添加一个atlas
@@ -330,8 +330,15 @@ namespace KleiAnim
 			/// <param name="atlas"></param>
 			/// <created>Fa鸽,2019/8/2</created>
 			/// <changed>Fa鸽,2019/8/2</changed>
-			void add(Common::AtlasNode& atlas);
+			void add(const Common::AtlasNode& atlas);
 
+			/// <summary>
+			/// 移动一个atlas
+			/// </summary>
+			/// <param name="atlas"></param>
+			/// <created>Fa鸽,2020/3/16</created>
+			/// <changed>Fa鸽,2020/3/16</changed>
+			void add(Common::AtlasNode&& atlas);
 			/// <summary>
 			/// 添加一组（6个）顶点三角形
 			/// </summary>

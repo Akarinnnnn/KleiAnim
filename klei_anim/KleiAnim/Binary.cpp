@@ -144,7 +144,7 @@ AnimationReader::AnimationReader(const std::filesystem::path & animpath)
 
 			if (anim.facing != Common::Facing::All)
 			{
-				KleiAnimLog::write() << animpath << LOG(" 不是一段全朝向的动画。");
+				KleiAnimLog::write() << animpath << LOG(" 不是一段全朝向的动画。") << endl;
 			}
 
 			file.read(TO_PCHAR(anim.rootsym_hash), 4);
@@ -656,7 +656,7 @@ void KleiAnim::Binary::BuildWriter::writestream(std::ostream& file)
 	file.write(TO_PCHAR(this->frame_count), 4);
 }
 
-void KleiAnim::Binary::BuildWriter::add(Common::SymbolNode& sym)
+void KleiAnim::Binary::BuildWriter::add(const Common::SymbolNode& sym)
 {
 	BuildBase::symbols.push_back(sym);
 	if (sym.frames.size() >= UINT32_MAX - frame_count)
@@ -664,12 +664,12 @@ void KleiAnim::Binary::BuildWriter::add(Common::SymbolNode& sym)
 	frame_count += sym.frames.size();
 }
 
-void KleiAnim::Binary::BuildWriter::add(Common::AlphaVertexNode& vert)
+void KleiAnim::Binary::BuildWriter::add(const Common::AlphaVertexNode& vert)
 {
 	BuildBase::vertices.push_back(vert);
 }
 
-void KleiAnim::Binary::BuildWriter::add(Common::AtlasNode& atlas)
+void KleiAnim::Binary::BuildWriter::add(const Common::AtlasNode& atlas)
 {
 	BuildBase::atlases.push_back(atlas);
 }
@@ -680,6 +680,11 @@ void KleiAnim::Binary::BuildWriter::add(const std::array<Common::AlphaVertexNode
 	{
 		BuildBase::vertices.push_back(vert);
 	}
+}
+
+void KleiAnim::Binary::BuildWriter::add(Common::AtlasNode&& atlas)
+{ 
+	BuildBase::atlases.push_back(atlas);
 }
 
 void KleiAnim::Binary::BuildWriter::add_hashstringpair(unsigned int hash, std::string&& string)

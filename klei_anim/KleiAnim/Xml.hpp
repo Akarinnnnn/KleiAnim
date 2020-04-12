@@ -4,6 +4,11 @@
 ***************************/
 #pragma once
 #include "Binary.hpp"
+
+#ifndef _HAS_CXX20
+using char8_t = char;
+#endif // !_HAS_CXX20
+
 namespace KleiAnim
 {
 	namespace XML

@@ -5,16 +5,13 @@
 #pragma once
 
 #include <string>
+#include <list>
 #include <vector>
-//#include <typeinfo>
-#include <fstream>
 #include <map>
 #include "export.h"
+#include <iostream>
+#include <fstream>
 #include <sstream>
-
-#define KleiAnimLog KleiAnim::Common::WideCharLog
-
-
 
 //#include <type_traits>
 //assert size
@@ -38,30 +35,112 @@ namespace KleiAnim
 {
 	namespace Common
 	{
-		/// <summary>
-		/// 若要改变KleiAnim的日志输出，只需在调用KleiAnim之前构造一个实例
-		/// </summary>
-		class CharLog
-		{
-		public:
-			EXPORT_API CharLog(std::ostream& output);
-			static std::ostream& write();
-		private:
-			inline static CharLog* in_use = nullptr;
-			std::ostream* stream;
-		};
 
 		/// <summary>
-		/// 若要改变KleiAnim的日志输出，只需在调用KleiAnim之前构造一个实例
+		/// 默认输出到std::wcout
 		/// </summary>
 		class WideCharLog
 		{
 		public:
-			EXPORT_API WideCharLog(std::wostream& output);
-			static std::wostream& write();
+			WideCharLog();
+			void EXPORT_API AddFile(std::filesystem::path path);			
+#pragma region 内部函数
+#ifdef KLEIANIM_EXPORTS
+			static WideCharLog& write();
+			WideCharLog& operator<<(const wchar_t* str)
+			{
+				std::wcout << str;
+				for (auto& stream : streams)
+					stream << str;
+				return *this;
+			}
+			WideCharLog& operator<<(std::wstring&& str)
+			{
+				std::wcout << str;
+				for (auto& stream : streams)
+					stream << str;
+				return *this;
+			}
+
+			WideCharLog& operator<<(std::wostream& (__cdecl* func)(std::wostream&))
+			{
+				std::wcout << func;
+				for (auto& stream : streams)
+					stream << func;
+				return *this;
+			}
+			WideCharLog& operator<<(uint64_t num)
+			{
+				std::wcout << num;
+				for (auto& stream : this->streams)
+					stream << num;
+
+				return *this;
+			}
+			WideCharLog& operator<<(uint32_t num)
+			{
+				std::wcout << num;
+				for (auto& stream : this->streams)
+					stream << num;
+
+				return *this;
+			}
+
+			WideCharLog& operator<<(int64_t num)
+			{
+				std::wcout << num;
+				for (auto& stream : this->streams)
+					stream << num;
+
+				return *this;
+			}
+			WideCharLog& operator<<(int32_t num)
+			{
+				std::wcout << num;
+				for (auto& stream : this->streams)
+					stream << num;
+
+				return *this;
+			}
+			WideCharLog& operator<<(float num)
+			{
+				std::wcout << num;
+				for (auto& stream : this->streams)
+					stream << num;
+
+				return *this;
+			}
+			WideCharLog& operator<<(double num)
+			{
+				std::wcout << num;
+				for (auto& stream : this->streams)
+					stream << num;
+
+				return *this;
+			}
+			WideCharLog& operator<<(char num)
+			{
+				std::wcout << num;
+				for (auto& stream : this->streams)
+					stream << num;
+
+				return *this;
+			}
+
+			template<typename T>
+			WideCharLog& operator<< (T& ref)
+			{
+				static_assert(!std::is_enum<T>() && !std::is_arithmetic<T>());
+				std::wcout << ref;
+				for (auto& stream : this->streams)
+					stream << ref;
+				return *this;
+			}
+#pragma endregion
+#endif // KLEIANIM_EXPORTS
 		private:
-			inline static WideCharLog* in_use = nullptr;
-			std::wostream* stream;
+			std::list<std::wofstream> streams;
+
 		};
 
 		///<summary>
@@ -272,7 +351,6 @@ namespace KleiAnim
 		/// 获取元素节点的字符串(<see cref="std::wstring"/>)表示，仅支持wstring
 		/// </summary>
 		/// <param name="elem">元素节点</param>
-		/// <returns>返回<see cref="std::wstring"/>，建议配合std::move使用以避免构造开销</returns>
 		/// <example><c>wstring elem_str = std::move(ToString(elem));</c></example>
 		/// <created>Fa鸽,2019/7/27</created>
 		/// <changed>Fa鸽,2019/7/27</changed>
@@ -374,10 +452,12 @@ namespace KleiAnim
 			std::vector<Common::AlphaVertexNode> vertices;
 		};
 
-		constexpr uint32_t common_license_hash[] = {
+		constexpr uint32_t common_license_hash[3] = {
 			1495471998ui32,	//SPDX-License-Identifier: CC-BY-NC-4.0
 			1850363105ui32,	//SPDX-License-Identifier: MIT
 			377050555ui32,	//SPDX-License-Identifier: GPL-3.0-or-later
 		};
 	}
 }
+
+using KleiAnimLog = KleiAnim::Common::WideCharLog;

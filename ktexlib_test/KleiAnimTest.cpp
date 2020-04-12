@@ -305,7 +305,6 @@ namespace ktexlibtest
 		{
 			using namespace KleiAnim::Binary;
 			using namespace KleiAnim::Common;
-			WideCharLog a(std::wcout);
 
 			BuildBase TestBase(2, 3, "TestBuild",
 				{
@@ -368,8 +367,6 @@ namespace ktexlibtest
 			using namespace KleiAnim::Common;
 			using namespace std::string_literals;
 			using std::make_pair;
-			WideCharLog a(std::wcout);
-
 
 			AnimationBase base
 			(

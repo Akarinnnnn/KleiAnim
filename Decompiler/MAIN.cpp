@@ -14,13 +14,7 @@ L"帮助信息\n"
 "/out ，可选，输出文件夹\n\n\n";
 int wmain(int argc,wchar_t** argv)
 {
-#pragma warning(push)
-#pragma warning (disable:26444)
-	std::wcout.imbue(std::locale(""));
-#pragma warning(pop)
-	{
-		KleiAnim::Common::WideCharLog a(std::wcout);
-	}
+
 	ArgumentParser parser;
 	parser.SetHelpMessage(helpmsg);
 	parser.AddString(L"in");
@@ -33,7 +27,7 @@ int wmain(int argc,wchar_t** argv)
 		path input = std::filesystem::canonical(parser.GetString(L"in"));
 		std::wstring out = parser.GetString(L"out");
 		if (out[0] == L'\0')
-			out = std::filesystem::absolute(input / L"反编译输出\\");
+			out = std::filesystem::absolute(input / input.parent_path());
 		std::filesystem::create_directory(out);//先创建文件夹，fopen等才能自动创建文件
 		{
 			using namespace KleiAnim::XML;

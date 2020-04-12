@@ -52,6 +52,7 @@ void ArgumentParser::Parse(int argc, wchar_t** argv)
 		else
 		{
 			std::wcout << L"这个缺德佬没有写帮助信息" << std::endl;
+			system("pause");
 		}
 		exit(0);
 	}

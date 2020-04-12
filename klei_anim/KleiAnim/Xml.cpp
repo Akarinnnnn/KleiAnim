@@ -4,17 +4,19 @@
 //来自NuGet的pugixml 1.10.0
 #include <pugixml.hpp>
 #include <utility>
+#include <stringapiset.h>
 
 using namespace std::string_literals;
 using pugi::xml_node;
 using pugi::xpath_node;
 using std::filesystem::path;
 
-std::wstring ToString(const char* str)
+std::wstring ToString936(const char* str)
 {
-	std::wostringstream o;
-	o << str;
-	return o.str();
+	size_t size = MultiByteToWideChar(936, 0, str, 0, nullptr, 0);;
+	std::wstring ret { size, L'\0', std::allocator<wchar_t>() };
+	MultiByteToWideChar(936, 0, str, 0, ret.data(), ret.size());
+	return ret;
 }
 
 std::wstring LicenseFromHash(uint32_t hash)
@@ -37,7 +39,6 @@ std::wstring LicenseFromHash(uint32_t hash)
 void KleiAnim::XML::AnimBin2XML(std::filesystem::path binary, std::filesystem::path xmlpath)
 {
 	Binary::AnimationReader bin(binary);
-	//static_cast不行,dymanic_cast没有虚函数不能用
 	AnimBin2XML(bin, xmlpath);
 }
 
@@ -187,7 +188,7 @@ void build2bin(pugi::xml_document& doc, path&& outfile)
 	file.build_name = doc.child("Build").attribute("name").as_string();
 
 	auto xsyms = doc.select_nodes("Build/Symbol");//xml symbols
-
+	auto xatlases = doc.select_nodes("Build/Atlas");
 	Common::SymbolNode sym{};
 	for (auto& _xsym : xsyms)
 	{
@@ -201,11 +202,6 @@ void build2bin(pugi::xml_document& doc, path&& outfile)
 		auto xframes = xsym.children("Frame");
 
 		Common::BuildFrameNode frame{};
-#ifdef _AMD64_
-		sym.frames.resize(xsym.attribute("numframes").as_ullong());
-#elif defined(_X86_)
-		sym.frames.resize(xsym.attribute("numframes").as_uint());
-#endif // _AMD64_
 
 		for (auto& xframe : xframes)
 		{
@@ -217,10 +213,22 @@ void build2bin(pugi::xml_document& doc, path&& outfile)
 			frame.frame_number = xframe.attribute("framenum").as_uint();
 			frame.duration = xframe.attribute("duration").as_uint();
 
-			sym.frames[xframe.attribute("framenum").as_uint()] = frame;
+			sym.frames.push_back(frame);
+			//排一遍确保顺序
+			std::sort(sym.frames.begin(), sym.frames.end(), [](Common::BuildFrameNode& a, Common::BuildFrameNode& b)->bool
+				{
+					if (a.frame_number == b.frame_number) throw std::runtime_error("----Build中 存在两个具有相同framenum的帧----");
+					return a.frame_number < b.frame_number;
+				});
 		}
 
 		file.add(sym);
+	}
+
+	for (auto& _xatlas : xatlases)
+	{
+		auto* name = _xatlas.node().attribute("name").as_string();
+		file.add(Common::AtlasNode{name});
 	}
 
 	file.writefile();

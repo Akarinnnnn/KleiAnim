@@ -11,7 +11,7 @@ using pugi::xml_node;
 using pugi::xpath_node;
 using std::filesystem::path;
 
-std::wstring ToString936(const char* str)
+std::wstring ToString(const char* str, unsigned int codepage)
 {
 	size_t size = MultiByteToWideChar(936, 0, str, 0, nullptr, 0);;
 	std::wstring ret { size, L'\0', std::allocator<wchar_t>() };
@@ -141,8 +141,9 @@ void KleiAnim::XML::BuildBin2XML(Binary::BuildReader& binary, std::filesystem::p
 		xsym.append_attribute("name").set_value(name.c_str());
 		if (name == prevname)
 		{
-			KleiAnimLog::write() << L"可能是版权信息？\n";
-			std::cout << name << std::endl;
+			KleiAnimLog::write() << L"可能是版权信息？\n"
+				<< L"UTF-8:" << ToString(name.c_str(), 65001) << L'\n'
+				<< L"GBK:" << ToString(name.c_str(), 936);
 			system("pause");
 		}
 		for (auto& frame : sym.frames)

@@ -57,6 +57,9 @@
     <ClInclude Include="KleiAnim\common\export.h">
       <Filter>头文件\KleiAnim\common</Filter>
     </ClInclude>
+    <ClInclude Include="KleiAnim\Vertex.hpp">
+      <Filter>头文件\KleiAnim</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -75,6 +78,9 @@
       <Filter>源文件\KleiAnim\Shared</Filter>
     </ClCompile>
     <ClCompile Include="KleiAnim\Xml.cpp">
+      <Filter>源文件\KleiAnim</Filter>
+    </ClCompile>
+    <ClCompile Include="KleiAnim\Vertex.cpp">
       <Filter>源文件\KleiAnim</Filter>
     </ClCompile>
   </ItemGroup>

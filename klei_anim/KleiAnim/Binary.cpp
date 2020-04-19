@@ -307,10 +307,9 @@ BuildReader::BuildReader(const std::filesystem::path & buildpath)
 		unsigned int atlas_count = 0;
 		file.read(TO_PCHAR(atlas_count), 4);
 		atlases.reserve(atlas_count);
+
 		for (unsigned int i = 0; i < atlas_count; i++)
-		{
 			atlases.push_back({ Common::read_str(file) });
-		}
 	}
 
 	//symbol

@@ -8,6 +8,8 @@
 #include "../klei_anim/KleiAnim/Binary.hpp"
 #include "../klei_anim/KleiAnim/common/exceptions.hpp"
 #include "../klei_anim/KleiAnim/Xml.hpp"
+#include "../klei_anim/KleiAnim/Vertex.hpp"
+
 #include <filesystem>
 #include <fstream>
 #include <vector>
@@ -95,7 +97,7 @@ Microsoft::VisualStudio::CppUnitTestFramework::ToString<::KleiAnim::Common::Buil
 	o << L"Frame number = " << elem.frame_number << L'\n';
 	o << L"Duration = " << elem.duration << L'\n';
 	o << L"x,y,w,h = " << elem.x << L',' << elem.y << L',' << elem.w << L',' << elem.h << L'\n';
-	o << L"alpha_index = " << elem.alpha_index << L'\n' << L"alpha_count = " << elem.alpha_count << L'\n';
+	o << L"alpha_index = " << elem.vertbox_startindex << L'\n' << L"alpha_count = " << elem.alpha_count << L'\n';
 	return o.str();
 }
 
@@ -296,7 +298,7 @@ namespace ktexlibtest
 			Assert::AreEqual(64.0f, frame0.h, L"h != 64.0");
 
 			Assert::AreEqual(6u, frame0.alpha_count, L"alpha count != 6");
-			Assert::AreEqual(0u, frame0.alpha_index, L"alpha index != 0");
+			Assert::AreEqual(0u, frame0.vertbox_startindex, L"alpha index != 0");
 
 			//todo:vertices assert
 		}
@@ -424,6 +426,15 @@ namespace ktexlibtest
 		TEST_METHOD(BuildToXML)
 		{
 			KleiAnim::XML::BuildBin2XML("build_test.bin", "build.test.xml");
+		}
+
+		TEST_METHOD(VerticesTest)
+		{
+			using namespace KleiAnim::Vertex;
+			KleiAnim::Binary::BuildReader bin{ L".\\build_test.bin" };
+			auto* g = MakeGroup(bin.vertices(0));
+			auto i = FromGroup(*g);
+			Assert::IsTrue(VaildateGroup(*g));
 		}
 	private:
 

@@ -209,7 +209,28 @@ namespace KleiAnim
 		/// </summary>
 		struct AlphaVertexNode
 		{
-			float x = 0, y = 0, z = 0, u = 0, v = 0, w = 0;
+			union Style
+			{
+				struct Structure
+				{
+					float a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
+					Structure(float a, float b, float c, float d, float e, float f) :a(a), b(b), c(c), d(d), e(e), f(f) {}
+				}
+				structure;
+				float arraylike[6];
+				Style() :structure(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f) {}
+				Style(Structure& s) :structure(s) {}
+			} style;
+
+			AlphaVertexNode() {}
+			AlphaVertexNode(Style::Structure& s): style(s) {}
+			AlphaVertexNode(float arr[6])
+			{
+				for (size_t i = 0; i < 6; i++)
+				{
+					style.arraylike[i] = arr[i];
+				}
+			}
 		};
 
 		/// <summary>
@@ -223,11 +244,11 @@ namespace KleiAnim
 			/// <summary>持续时间</summary>
 			unsigned int duration = 1;
 
-			/// <summary>bbox xywh参数</summary>
+			/// <summary>碰撞检测 xywh参数</summary>
 			float x = 0, y = 0, w = 0, h = 0;
 
 
-			unsigned int alpha_index = 0;
+			unsigned int vertbox_startindex = 0;
 			unsigned int alpha_count = 0;
 		};
 
@@ -362,7 +383,7 @@ namespace KleiAnim
 			o << L"Frame number = " << elem.frame_number << L'\n';
 			o << L"Duration = " << elem.duration << L'\n';
 			o << L"x,y,w,h = " << elem.x << L',' << elem.y << L',' << elem.w << L',' << elem.h << L'\n';
-			o << L"alpha_index = " << elem.alpha_index << L'\n' << L"alpha_count = " << elem.alpha_count << L'\n';
+			o << L"alpha_index = " << elem.vertbox_startindex << L'\n' << L"alpha_count = " << elem.alpha_count << L'\n';
 			return o.str();
 		}
 

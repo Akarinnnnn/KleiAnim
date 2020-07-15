@@ -12,7 +12,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
+//#include <endian>
 //#include <type_traits>
 //assert size
 static_assert(sizeof(unsigned int) == 4,"unsigned int must be 4 bytes long");
@@ -28,7 +28,7 @@ static_assert(alignof(unsigned int) == 4,"unsigned int must be 4-byte aligned");
 
 //assert LE(C++ 20)
 //确保目标机器是小端机
-//static_assert(std::endian::native == std::endian::little)
+//static_assert(std::endian::native == std::endian::little);
 
 
 namespace KleiAnim
@@ -209,30 +209,13 @@ namespace KleiAnim
 		/// </summary>
 		struct AlphaVertexNode
 		{
-			union Style
-			{
-				struct Structure
-				{
-					float a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
-					Structure(float a, float b, float c, float d, float e, float f) :a(a), b(b), c(c), d(d), e(e), f(f) {}
-				}
-				structure;
-				float arraylike[6];
-				Style() :structure(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f) {}
-				Style(Structure& s) :structure(s) {}
-			} style;
-
-			AlphaVertexNode() {}
-			AlphaVertexNode(Style::Structure& s): style(s) {}
-			AlphaVertexNode(float arr[6])
-			{
-				for (size_t i = 0; i < 6; i++)
-				{
-					style.arraylike[i] = arr[i];
-				}
-			}
+			float a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
 		};
-
+		union VertexStyle
+		{
+			AlphaVertexNode avn;
+			float arr[6];
+		};
 		/// <summary>
 		/// Build中的帧节点
 		/// </summary>

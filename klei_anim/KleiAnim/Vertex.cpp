@@ -2,33 +2,51 @@
 #include "Vertex.hpp"
 using namespace KleiAnim::Vertex;
 
-VertexInfo EXPORT_API KleiAnim::Vertex::FromGroup(const VertexGroup& group)
+std::array<Vertex, 6> __declspec(dllexport) KleiAnim::Vertex::VerticesFromInfo(const VertexInfo& i)
+{
+	std::array<Vertex, 6> ret;
+	ret[0] = { i.x0, i.y1, i.z, i.u1, i.v1, i.atlasIndex };
+	ret[1] = { i.x1,i.y1,i.z,i.u2,i.v1,i.atlasIndex };
+	ret[2] = { i.x0,i.y0,i.z,i.u1,i.v2,i.atlasIndex };
+	ret[3] = { i.x1,i.y1,i.z,i.u2,i.v1,i.atlasIndex };
+	ret[4] = { i.x1,i.y0,i.z,i.u2,i.v2,i.atlasIndex };
+	ret[5] = { i.x0,i.y0,i.z,i.u1,i.v2,i.atlasIndex };
+
+	return ret;
+}
+
+std::array<Vertex, 6> __declspec(dllexport) KleiAnim::Vertex::VerticesFromInfo(VertexInfo&& info)
+{
+	return VerticesFromInfo(info);
+}
+
+VertexInfo __declspec(dllexport) KleiAnim::Vertex::FromGroup(const VertexGroup& group)
 {
 	VertexInfo ret;
 
-	auto f = group.v0.style.structure.f;
+	auto f = group.v0.f;
 	ret.atlasIndex = roundf(f);
 
-	ret.x0 = group.v0.style.structure.a;
-	ret.x1 = group.v2.style.structure.a;
+	ret.x0 = group.v0.a;
+	ret.x1 = group.v2.a;
 
-	ret.y0 = group.v2.style.structure.b;
-	ret.y1 = group.v0.style.structure.b;
+	ret.y0 = group.v2.b;
+	ret.y1 = group.v0.b;
 
-	ret.u1 = group.v0.style.structure.d;
-	ret.u2 = group.v1.style.structure.d;
+	ret.u1 = group.v0.d;
+	ret.u2 = group.v1.d;
 
-	ret.v1 = group.v0.style.structure.e;
-	ret.v2 = group.v2.style.structure.e;
+	ret.v1 = group.v0.e;
+	ret.v2 = group.v2.e;
 
-	ret.z = group.v0.style.structure.c;
+	ret.z = group.v0.c;
 
 	return ret;
 }
 
 //祖传代码？
 //不敢动，不敢动
-bool EXPORT_API KleiAnim::Vertex::VaildateGroup(const VertexGroup& group)
+bool __declspec(dllexport) KleiAnim::Vertex::VaildateGroup(const VertexGroup& group)
 {
 	union ___X
 	{

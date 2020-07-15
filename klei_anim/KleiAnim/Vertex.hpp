@@ -31,6 +31,9 @@ namespace KleiAnim::Vertex
 		return reinterpret_cast<const VertexGroup*> (vertices.data());
 	}
 
+	std::array<Vertex, 6> EXPORT_API VerticesFromInfo(const VertexInfo& info);
+	std::array<Vertex, 6> EXPORT_API VerticesFromInfo(VertexInfo&& info);
+
 	VertexInfo EXPORT_API FromGroup(const VertexGroup&);
 
 	bool EXPORT_API VaildateGroup(const VertexGroup&);

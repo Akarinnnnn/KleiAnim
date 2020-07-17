@@ -5,7 +5,7 @@
 #pragma once
 #include "Binary.hpp"
 
-#ifndef _HAS_CXX20
+#ifndef __cpp_char8_t
 using char8_t = char;
 #endif // !_HAS_CXX20
 

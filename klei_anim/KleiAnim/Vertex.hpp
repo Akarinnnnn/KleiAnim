@@ -3,7 +3,7 @@
 
 namespace KleiAnim::Vertex
 {
-	using Vertex = KleiAnim::Common::AlphaVertexNode;
+	using Vertex = KleiAnim::Common::AlphaVertex;
 	struct alignas(4) VertexGroup
 	{
 		Vertex v0;

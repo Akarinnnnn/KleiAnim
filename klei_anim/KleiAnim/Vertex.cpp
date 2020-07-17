@@ -5,12 +5,12 @@ using namespace KleiAnim::Vertex;
 std::array<Vertex, 6> __declspec(dllexport) KleiAnim::Vertex::VerticesFromInfo(const VertexInfo& i)
 {
 	std::array<Vertex, 6> ret;
-	ret[0] = { i.x0, i.y1, i.z, i.u1, i.v1, i.atlasIndex };
-	ret[1] = { i.x1,i.y1,i.z,i.u2,i.v1,i.atlasIndex };
-	ret[2] = { i.x0,i.y0,i.z,i.u1,i.v2,i.atlasIndex };
-	ret[3] = { i.x1,i.y1,i.z,i.u2,i.v1,i.atlasIndex };
-	ret[4] = { i.x1,i.y0,i.z,i.u2,i.v2,i.atlasIndex };
-	ret[5] = { i.x0,i.y0,i.z,i.u1,i.v2,i.atlasIndex };
+	ret[0] = { i.x0, i.y1, i.z, i.u1, i.v1, (float)i.atlasIndex };
+	ret[1] = { i.x1,i.y1,i.z,i.u2,i.v1,(float)i.atlasIndex };
+	ret[2] = { i.x0,i.y0,i.z,i.u1,i.v2,(float)i.atlasIndex };
+	ret[3] = { i.x1,i.y1,i.z,i.u2,i.v1,(float)i.atlasIndex };
+	ret[4] = { i.x1,i.y0,i.z,i.u2,i.v2,(float)i.atlasIndex };
+	ret[5] = { i.x0,i.y0,i.z,i.u1,i.v2,(float)i.atlasIndex };
 
 	return ret;
 }

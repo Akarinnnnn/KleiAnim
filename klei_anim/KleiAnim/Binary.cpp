@@ -31,7 +31,7 @@ using std::ios;
 //留着以后看看能不能改进
 //定义MT_READ_ELEM以使用这个sb函数
 void mt_read_elem(const unsigned int count,
-	std::vector<::KleiAnim::Common::ElementNode>& out,
+	std::vector<::KleiAnim::Common::Element>& out,
 	const std::filesystem::path& path,
 	const size_t pos)
 {
@@ -50,7 +50,7 @@ void mt_read_elem(const unsigned int count,
 			{
 				thread_local std::ifstream file(path, ios::binary | ios::in);
 				thread_local size_t begin_pos = pos + (40Ui64 * count * cur_tid) / t_limit;
-				::KleiAnim::Common::ElementNode read_out{ 0,0,0,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f };
+				::KleiAnim::Common::Element read_out{ 0,0,0,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f,0.0f };
 
 				file.seekg(begin_pos);
 				//读取
@@ -78,10 +78,10 @@ void mt_read_elem(const unsigned int count,
 	}
 }
 
-std::vector<KleiAnim::Common::ElementNode> st_read_elem(std::ifstream& f, unsigned int count)
+std::vector<KleiAnim::Common::Element> st_read_elem(std::ifstream& f, unsigned int count)
 {
-	using KleiAnim::Common::ElementNode;
-	std::vector<ElementNode> ret;
+	using KleiAnim::Common::Element;
+	std::vector<Element> ret;
 	ret.resize(count);
 	f.read((char*)ret.data(), static_cast<size_t>(count) * 40Ui64);
 	return ret;
@@ -131,7 +131,7 @@ AnimationReader::AnimationReader(const std::filesystem::path & animpath)
 	animations.reserve(info.anim);
 	for (size_t i_anim = 0; i_anim < info.anim; i_anim++)
 	{
-		Common::AnimationNode anim;
+		Common::Animation anim;
 		//第一段
 #ifdef ENABLE_TIME_RECORD
 		cout << "i_anim = " << i_anim << ',';
@@ -168,7 +168,7 @@ AnimationReader::AnimationReader(const std::filesystem::path & animpath)
 				cout << "frame i = " << i;
 				PRINT_TIME;
 #endif 
-				Common::AnimationFrameNode frame;
+				Common::AnimationFrame frame;
 				unsigned int event_count = 0, elem_count = 0;
 
 				file.read(TO_PCHAR(frame.x), 4 * sizeof(float));
@@ -225,12 +225,12 @@ unsigned int KleiAnim::Binary::AnimationReader::anim_count() const
 	return animations.size();
 }
 
-std::vector<Common::AnimationNode>::const_iterator KleiAnim::Binary::AnimationReader::begin() const
+std::vector<Common::Animation>::const_iterator KleiAnim::Binary::AnimationReader::begin() const
 {
 	return this->animations.begin();
 }
 
-std::vector<Common::AnimationNode>::const_iterator KleiAnim::Binary::AnimationReader::end() const
+std::vector<Common::Animation>::const_iterator KleiAnim::Binary::AnimationReader::end() const
 {
 	return this->animations.end();
 }
@@ -250,27 +250,27 @@ const std::string & KleiAnim::Binary::AnimationReader::de_hash(const unsigned in
 	return str_table.at(hash);
 }
 
-const Common::AnimationNode& KleiAnim::Binary::AnimationReader::animation(const size_t i) const
+const Common::Animation& KleiAnim::Binary::AnimationReader::animation(const size_t i) const
 {
 	return animations[i];
 }
 
-const Common::AnimationNode& KleiAnim::Binary::AnimationReader::operator[](const size_t i) const
+const Common::Animation& KleiAnim::Binary::AnimationReader::operator[](const size_t i) const
 {
 	return animations[i];
 }
 
-const Common::AnimationFrameNode& KleiAnim::Binary::AnimationReader::frame(const size_t anim, const size_t frame) const
+const Common::AnimationFrame& KleiAnim::Binary::AnimationReader::frame(const size_t anim, const size_t frame) const
 {
 	return animations[anim].frames[frame];
 }
 
-const std::vector<Common::EventNode>& KleiAnim::Binary::AnimationReader::events(const size_t anim, const size_t _frame) const
+const std::vector<Common::Event>& KleiAnim::Binary::AnimationReader::events(const size_t anim, const size_t _frame) const
 {
 	return animations[anim].frames[_frame].events;
 }
 
-const std::vector<Common::ElementNode>& KleiAnim::Binary::AnimationReader::element_refs(const size_t anim, const size_t frame) const
+const std::vector<Common::Element>& KleiAnim::Binary::AnimationReader::element_refs(const size_t anim, const size_t frame) const
 {
 	return animations[anim].frames[frame].elements;
 }
@@ -317,8 +317,8 @@ BuildReader::BuildReader(const std::filesystem::path & buildpath)
 	{
 		for (unsigned int i = 0; i < BuildBase::symbol_count; i++)
 		{
-			Common::SymbolNode symbol;
-			Common::BuildFrameNode curframe;
+			Common::Symbol symbol;
+			Common::BuildFrame curframe;
 			unsigned int cur_frame_count = 0;
 			file.read(TO_PCHAR(symbol.name_hash), 4);
 			file.read(TO_PCHAR(cur_frame_count), 4);
@@ -336,7 +336,7 @@ BuildReader::BuildReader(const std::filesystem::path & buildpath)
 	//alpha vertex
 	{
 		unsigned int vertex_count = 0;
-		Common::AlphaVertexNode avn;
+		Common::AlphaVertex avn;
 		file.read(TO_PCHAR(vertex_count), 4);
 		BuildBase::vertices.reserve(vertex_count);
 		for (unsigned int i = 0; i < vertex_count; i++)
@@ -356,12 +356,12 @@ BuildReader::BuildReader(const std::filesystem::path & buildpath)
 	}
 }
 
-std::vector<Common::SymbolNode>::const_iterator KleiAnim::Binary::BuildReader::begin() const
+std::vector<Common::Symbol>::const_iterator KleiAnim::Binary::BuildReader::begin() const
 {
 	return symbols.begin();
 }
 
-std::vector<Common::SymbolNode>::const_iterator KleiAnim::Binary::BuildReader::end() const
+std::vector<Common::Symbol>::const_iterator KleiAnim::Binary::BuildReader::end() const
 {
 	return symbols.end();
 }
@@ -386,32 +386,32 @@ std::string KleiAnim::Binary::BuildReader::name() const
 	return build_name;
 }
 
-const Common::SymbolNode& KleiAnim::Binary::BuildReader::symbol(const size_t i) const
+const Common::Symbol& KleiAnim::Binary::BuildReader::symbol(const size_t i) const
 {
 	return symbols.at(i);
 }
 
-const Common::SymbolNode& KleiAnim::Binary::BuildReader::operator[](const size_t i) const
+const Common::Symbol& KleiAnim::Binary::BuildReader::operator[](const size_t i) const
 {
 	return symbols[i];
 }
 
-const Common::AtlasNode& KleiAnim::Binary::BuildReader::atlas(const size_t i) const
+const Common::Atlas& KleiAnim::Binary::BuildReader::atlas(const size_t i) const
 {
 	return atlases.at(i);
 }
 
-const Common::AlphaVertexNode& KleiAnim::Binary::BuildReader::vertex(const size_t i) const
+const Common::AlphaVertex& KleiAnim::Binary::BuildReader::vertex(const size_t i) const
 {
 	return BuildBase::vertices.at(i);
 }
 
-std::array<Common::AlphaVertexNode, 6> KleiAnim::Binary::BuildReader::vertices(const unsigned int start) const
+std::array<Common::AlphaVertex, 6> KleiAnim::Binary::BuildReader::vertices(const unsigned int start) const
 {
 	if (BuildBase::vertices.size() < (size_t(start) * size_t(6) + size_t(6)))
 		throw std::out_of_range("并没有这么多组");
 
-	std::array<Common::AlphaVertexNode, 6> ret;
+	std::array<Common::AlphaVertex, 6> ret;
 	auto beg = BuildBase::vertices.data() + size_t(6) * size_t(start);
 	auto d = ret.data();
 	for (unsigned int i = 0; i < 6; i++)
@@ -419,7 +419,7 @@ std::array<Common::AlphaVertexNode, 6> KleiAnim::Binary::BuildReader::vertices(c
 	return ret;
 }
 
-const Common::BuildFrameNode& KleiAnim::Binary::BuildReader::frame(const size_t sym, const size_t i) const
+const Common::BuildFrame& KleiAnim::Binary::BuildReader::frame(const size_t sym, const size_t i) const
 {
 	return symbols.at(sym).frames.at(i);
 }
@@ -545,7 +545,7 @@ void KleiAnim::Binary::AnimationWriter::writestream(std::ostream& file)
 	file.flush();
 }
 
-void KleiAnim::Binary::AnimationWriter::add(Common::AnimationNode& anim)
+void KleiAnim::Binary::AnimationWriter::add(Common::Animation& anim)
 {
 	animations.push_back(anim);
 }
@@ -655,7 +655,7 @@ void KleiAnim::Binary::BuildWriter::writestream(std::ostream& file)
 	file.write(TO_PCHAR(this->frame_count), 4);
 }
 
-void KleiAnim::Binary::BuildWriter::add(const Common::SymbolNode& sym)
+void KleiAnim::Binary::BuildWriter::add(const Common::Symbol& sym)
 {
 	BuildBase::symbols.push_back(sym);
 	if (sym.frames.size() >= UINT32_MAX - frame_count)
@@ -663,17 +663,17 @@ void KleiAnim::Binary::BuildWriter::add(const Common::SymbolNode& sym)
 	frame_count += sym.frames.size();
 }
 
-void KleiAnim::Binary::BuildWriter::add(const Common::AlphaVertexNode& vert)
+void KleiAnim::Binary::BuildWriter::add(const Common::AlphaVertex& vert)
 {
 	BuildBase::vertices.push_back(vert);
 }
 
-void KleiAnim::Binary::BuildWriter::add(const Common::AtlasNode& atlas)
+void KleiAnim::Binary::BuildWriter::add(const Common::Atlas& atlas)
 {
 	BuildBase::atlases.push_back(atlas);
 }
 
-void KleiAnim::Binary::BuildWriter::add(const std::array<Common::AlphaVertexNode, 6> & vertices)
+void KleiAnim::Binary::BuildWriter::add(const std::array<Common::AlphaVertex, 6> & vertices)
 {
 	for (auto& vert : vertices)
 	{
@@ -681,7 +681,7 @@ void KleiAnim::Binary::BuildWriter::add(const std::array<Common::AlphaVertexNode
 	}
 }
 
-void KleiAnim::Binary::BuildWriter::add(Common::AtlasNode&& atlas)
+void KleiAnim::Binary::BuildWriter::add(Common::Atlas&& atlas)
 { 
 	BuildBase::atlases.push_back(atlas);
 }

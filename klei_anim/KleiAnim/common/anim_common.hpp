@@ -18,7 +18,7 @@
 static_assert(sizeof(unsigned int) == 4,"unsigned int must be 4 bytes long");
 static_assert(sizeof(unsigned short) == 2,"unsigned short must be 2 bytes long");
 static_assert(sizeof(float) == 4,"float must be 4 bytes long");
-//static_assert(sizeof(KleiAnim::Common::ElementNode) == 40);
+//static_assert(sizeof(KleiAnim::Common::Element) == 40);
 
 //assert align
 static_assert(alignof(unsigned short) == 2,"unsigned short must be 2-byte aligned");
@@ -207,19 +207,19 @@ namespace KleiAnim
 		/// <summary>
 		/// OpenGL顶点
 		/// </summary>
-		struct AlphaVertexNode
+		struct AlphaVertex
 		{
 			float a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
 		};
 		union VertexStyle
 		{
-			AlphaVertexNode avn;
+			AlphaVertex avn;
 			float arr[6];
 		};
 		/// <summary>
 		/// Build中的帧节点
 		/// </summary>
-		struct BuildFrameNode
+		struct BuildFrame
 		{
 			/// <summary>帧号</summary>
 			unsigned int frame_number = 0;
@@ -238,16 +238,16 @@ namespace KleiAnim
 		/// <summary>
 		/// 符号节点
 		/// </summary>
-		struct SymbolNode
+		struct Symbol
 		{
 			unsigned int name_hash = 0;
-			std::vector<BuildFrameNode> frames;
+			std::vector<BuildFrame> frames;
 		};
 
 		/// <summary>
 		/// 事件节点
 		/// </summary>
-		struct EXPORT_API EventNode
+		struct EXPORT_API Event
 		{
 			/// <summary>名称的哈希</summary>
 			unsigned int name_hash;
@@ -257,14 +257,14 @@ namespace KleiAnim
 				return name_hash;
 			}
 			
-			EventNode() : name_hash(0) {}
-			EventNode(unsigned int h):name_hash(h) {}
+			Event() : name_hash(0) {}
+			Event(unsigned int h):name_hash(h) {}
 		};
 
 		/// <summary>
 		/// 元素节点
 		/// </summary>
-		struct ElementNode
+		struct Element
 		{
 			/// <summary>哈希</summary>
 			unsigned int name_hash = 0;
@@ -279,18 +279,18 @@ namespace KleiAnim
 		/// <summary>
 		/// Animation中的帧节点
 		/// </summary>
-		struct AnimationFrameNode
+		struct AnimationFrame
 		{
 			float x = 0, y = 0, w = 0, h = 0;
 
-			std::vector<EventNode> events;//event count + event
-			std::vector<ElementNode> elements;//elem count + elems
+			std::vector<Event> events;//event count + event
+			std::vector<Element> elements;//elem count + elems
 		};
 
 		/// <summary>
 		/// 动画节点
 		/// </summary>
-		struct AnimationNode
+		struct Animation
 		{
 			std::string name;
 
@@ -303,13 +303,13 @@ namespace KleiAnim
 			/// <summary>帧率</summary>
 			float frame_rate = 10.0f;
 
-			std::vector<AnimationFrameNode> frames;
+			std::vector<AnimationFrame> frames;
 		};
 
 		/// <summary>
 		/// Atlas
 		/// </summary>
-		struct AtlasNode
+		struct Atlas
 		{
 			std::string name;
 		};
@@ -358,9 +358,9 @@ namespace KleiAnim
 		/// <example><c>wstring elem_str = std::move(ToString(elem));</c></example>
 		/// <created>Fa鸽,2019/7/27</created>
 		/// <changed>Fa鸽,2019/7/27</changed>
-		std::wstring EXPORT_API ToString(const ElementNode& elem);
+		std::wstring EXPORT_API ToString(const Element& elem);
 
-		inline std::wstring ToString(const BuildFrameNode& elem)
+		inline std::wstring ToString(const BuildFrame& elem)
 		{
 			std::wostringstream o;
 			o << L"Frame number = " << elem.frame_number << L'\n';
@@ -394,7 +394,7 @@ namespace KleiAnim
 		/// <returns>相等返回true，不相等返回false</returns>
 		/// <created>Fa鸽,2019/7/27</created>
 		/// <changed>Fa鸽,2019/7/27</changed>
-		bool EXPORT_API operator==(const ElementNode& l, const ElementNode& r);
+		bool EXPORT_API operator==(const Element& l, const Element& r);
 
 		class EXPORT_API AnimationBase : protected virtual Common::BinaryFileBase
 		{
@@ -404,7 +404,7 @@ namespace KleiAnim
 		public:
 			AnimationBase() = default;
 
-			AnimationBase(const std::vector<Common::AnimationNode>& animations,
+			AnimationBase(const std::vector<Common::Animation>& animations,
 				const std::map<unsigned int, std::string>& string_table) :animations(animations), BinaryFileBase(string_table)
 			{
 
@@ -417,7 +417,7 @@ namespace KleiAnim
 			static constexpr unsigned short cur_version = 0x0004;
 
 			/// <summary>animation</summary>
-			std::vector<Common::AnimationNode> animations;
+			std::vector<Common::Animation> animations;
 		};
 
 		class EXPORT_API BuildBase : protected virtual Common::BinaryFileBase
@@ -428,9 +428,9 @@ namespace KleiAnim
 			BuildBase() = default;
 
 			BuildBase(unsigned int symbol_count, unsigned int frame_count,
-				const std::string& build_name, const std::vector<Common::AtlasNode>& atlases,
-				const std::vector<Common::SymbolNode>& symbols,
-				const std::vector<Common::AlphaVertexNode>& vertices) :
+				const std::string& build_name, const std::vector<Common::Atlas>& atlases,
+				const std::vector<Common::Symbol>& symbols,
+				const std::vector<Common::AlphaVertex>& vertices) :
 				symbol_count(symbol_count),
 				frame_count(frame_count),
 				build_name(build_name),
@@ -451,9 +451,9 @@ namespace KleiAnim
 			unsigned int frame_count = 0;
 			std::string build_name;
 
-			std::vector<Common::AtlasNode> atlases;
-			std::vector<Common::SymbolNode> symbols;
-			std::vector<Common::AlphaVertexNode> vertices;
+			std::vector<Common::Atlas> atlases;
+			std::vector<Common::Symbol> symbols;
+			std::vector<Common::AlphaVertex> vertices;
 		};
 
 		constexpr uint32_t common_license_hash[3] = {

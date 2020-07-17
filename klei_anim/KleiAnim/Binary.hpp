@@ -50,8 +50,8 @@ namespace KleiAnim
 
 			unsigned int anim_count() const;
 			
-			std::vector<Common::AnimationNode>::const_iterator begin() const;
-			std::vector<Common::AnimationNode>::const_iterator end() const;
+			std::vector<Common::Animation>::const_iterator begin() const;
+			std::vector<Common::Animation>::const_iterator end() const;
 
 			/// <summary>
 			/// 获取常见许可信息的hash
@@ -78,7 +78,7 @@ namespace KleiAnim
 			/// <returns></returns>
 			/// <created>Fa鸽,2019/7/29</created>
 			/// <changed>Fa鸽,2019/7/29</changed>
-			const Common::AnimationNode& animation(const size_t i) const;
+			const Common::Animation& animation(const size_t i) const;
 
 			/// <summary>
 			/// 获取i号动画，与animation(size_t i)相同
@@ -87,7 +87,7 @@ namespace KleiAnim
 			/// <returns></returns>
 			/// <created>Fa鸽,2019/7/29</created>
 			/// <changed>Fa鸽,2019/7/29</changed>
-			const Common::AnimationNode& operator[] (const size_t i) const;
+			const Common::Animation& operator[] (const size_t i) const;
 
 			/// <summary>
 			/// 获取相应动画的第frame帧
@@ -97,7 +97,7 @@ namespace KleiAnim
 			/// <returns></returns>
 			/// <created>Fa鸽,2019/7/29</created>
 			/// <changed>Fa鸽,2019/7/29</changed>
-			const Common::AnimationFrameNode& frame(const size_t anim, const size_t frame) const;
+			const Common::AnimationFrame& frame(const size_t anim, const size_t frame) const;
 		
 			/// <summary>
 			/// 获取anim号动画，第frame帧的事件（一般的动画没有）
@@ -107,7 +107,7 @@ namespace KleiAnim
 			/// <returns></returns>
 			/// <created>Fa鸽,2019/7/29</created>
 			/// <changed>Fa鸽,2019/7/29</changed>
-			const std::vector<Common::EventNode>& events(const size_t anim, const size_t frame) const;		
+			const std::vector<Common::Event>& events(const size_t anim, const size_t frame) const;		
 
 			/// <summary>
 			/// 获取anim号动画，第frame帧的元素引用
@@ -117,7 +117,7 @@ namespace KleiAnim
 			/// <returns></returns>
 			/// <created>Fa鸽,2019/7/29</created>
 			/// <changed>Fa鸽,2019/7/29</changed>
-			const std::vector<Common::ElementNode>& element_refs(const size_t anim, const size_t frame) const;
+			const std::vector<Common::Element>& element_refs(const size_t anim, const size_t frame) const;
 		};
 
 		/// <summary>
@@ -131,8 +131,8 @@ namespace KleiAnim
 			BuildReader(const Common::BuildBase & base):BuildBase(base) {}
 
 
-			std::vector<Common::SymbolNode>::const_iterator begin() const;
-			std::vector<Common::SymbolNode>::const_iterator end() const;
+			std::vector<Common::Symbol>::const_iterator begin() const;
+			std::vector<Common::Symbol>::const_iterator end() const;
 
 			unsigned int symbol_count() const;
 			unsigned int atlas_count() const;
@@ -161,7 +161,7 @@ namespace KleiAnim
 			/// <returns></returns>
 			/// <created>Fa鸽,2019/7/31</created>
 			/// <changed>Fa鸽,2019/7/31</changed>
-			const Common::SymbolNode& symbol(const size_t i) const;
+			const Common::Symbol& symbol(const size_t i) const;
 
 			/// <summary>
 			/// 获取 i 号 符号
@@ -170,7 +170,7 @@ namespace KleiAnim
 			/// <returns></returns>
 			/// <created>Fa鸽,2019/8/2</created>
 			/// <changed>Fa鸽,2019/8/2</changed>
-			const Common::SymbolNode& operator[] (const size_t i) const;
+			const Common::Symbol& operator[] (const size_t i) const;
 
 			/// <summary>
 			/// 获取 i 号atlas
@@ -179,7 +179,7 @@ namespace KleiAnim
 			/// <returns></returns>
 			/// <created>Fa鸽,2019/8/2</created>
 			/// <changed>Fa鸽,2019/8/2</changed>
-			const Common::AtlasNode& atlas(const size_t i) const;
+			const Common::Atlas& atlas(const size_t i) const;
 
 			/// <summary>
 			/// 获取 i 号顶点三角形
@@ -188,7 +188,7 @@ namespace KleiAnim
 			/// <returns></returns>
 			/// <created>Fa鸽,2019/8/2</created>
 			/// <changed>Fa鸽,2019/8/2</changed>
-			const Common::AlphaVertexNode& vertex(const size_t i) const;
+			const Common::AlphaVertex& vertex(const size_t i) const;
 
 			/// <summary>
 			/// 获取第i组顶点三角形
@@ -198,7 +198,7 @@ namespace KleiAnim
 			/// <param name="start">第i组</param>
 			/// <created>Fa鸽,2019/8/2</created>
 			/// <changed>Fa鸽,2019/8/2</changed>
-			std::array<Common::AlphaVertexNode, 6> vertices(const unsigned int start) const;
+			std::array<Common::AlphaVertex, 6> vertices(const unsigned int start) const;
 
 			/// <summary>
 			/// 获取sym 符号的 i 帧
@@ -208,7 +208,7 @@ namespace KleiAnim
 			/// <returns></returns>
 			/// <created>Fa鸽,2019/8/2</created>
 			/// <changed>Fa鸽,2019/8/2</changed>
-			const Common::BuildFrameNode& frame(const size_t sym, const size_t i) const;
+			const Common::BuildFrame& frame(const size_t sym, const size_t i) const;
 
 			/// <summary>
 			/// 返回hash对应的字符串，建议结合std::move使用
@@ -264,7 +264,7 @@ namespace KleiAnim
 			/// <param name="anim">待添加的动画</param>
 			/// <created>Fa鸽,2019/8/2</created>
 			/// <changed>Fa鸽,2019/8/2</changed>
-			void add(Common::AnimationNode& anim);
+			void add(Common::Animation& anim);
 
 			void add_hashstringpair(unsigned int hash, std::string&& string);
 			void add_hashstringpair(unsigned int hash, std::string& string);
@@ -314,7 +314,7 @@ namespace KleiAnim
 			/// <param name="frame"></param>
 			/// <created>Fa鸽,2019/8/2</created>
 			/// <changed>Fa鸽,2019/8/2</changed>
-			void add(const Common::SymbolNode& sym);
+			void add(const Common::Symbol& sym);
 
 			/// <summary>
 			/// 添加一个顶点三角形
@@ -322,7 +322,7 @@ namespace KleiAnim
 			/// <param name="vert"></param>
 			/// <created>Fa鸽,2019/8/2</created>
 			/// <changed>Fa鸽,2019/8/2</changed>
-			void add(const Common::AlphaVertexNode& vert);
+			void add(const Common::AlphaVertex& vert);
 
 			/// <summary>
 			/// 添加一个atlas
@@ -330,7 +330,7 @@ namespace KleiAnim
 			/// <param name="atlas"></param>
 			/// <created>Fa鸽,2019/8/2</created>
 			/// <changed>Fa鸽,2019/8/2</changed>
-			void add(const Common::AtlasNode& atlas);
+			void add(const Common::Atlas& atlas);
 
 			/// <summary>
 			/// 移动一个atlas
@@ -338,14 +338,14 @@ namespace KleiAnim
 			/// <param name="atlas"></param>
 			/// <created>Fa鸽,2020/3/16</created>
 			/// <changed>Fa鸽,2020/3/16</changed>
-			void add(Common::AtlasNode&& atlas);
+			void add(Common::Atlas&& atlas);
 			/// <summary>
 			/// 添加一组（6个）顶点三角形
 			/// </summary>
 			/// <param name="vertices">数组</param>
 			/// <created>Fa鸽,2019/8/2</created>
 			/// <changed>Fa鸽,2019/8/2</changed>
-			void add(const std::array<Common::AlphaVertexNode,6>& vertices);
+			void add(const std::array<Common::AlphaVertex,6>& vertices);
 
 			void add_hashstringpair(unsigned int hash, std::string&& string);
 			void add_hashstringpair(unsigned int hash, std::string& string);

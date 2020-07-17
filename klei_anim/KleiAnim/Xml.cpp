@@ -190,7 +190,7 @@ void build2bin(pugi::xml_document& doc, path&& outfile)
 
 	auto xsyms = doc.select_nodes("Build/Symbol");//xml symbols
 	auto xatlases = doc.select_nodes("Build/Atlas");
-	Common::SymbolNode sym{};
+	Common::Symbol sym{};
 	for (auto& _xsym : xsyms)
 	{
 		auto xsym = _xsym.node();
@@ -202,7 +202,7 @@ void build2bin(pugi::xml_document& doc, path&& outfile)
 
 		auto xframes = xsym.children("Frame");
 
-		Common::BuildFrameNode frame{};
+		Common::BuildFrame frame{};
 
 		for (auto& xframe : xframes)
 		{
@@ -216,7 +216,7 @@ void build2bin(pugi::xml_document& doc, path&& outfile)
 
 			sym.frames.push_back(frame);
 			//排一遍确保顺序
-			std::sort(sym.frames.begin(), sym.frames.end(), [](Common::BuildFrameNode& a, Common::BuildFrameNode& b)->bool
+			std::sort(sym.frames.begin(), sym.frames.end(), [](Common::BuildFrame& a, Common::BuildFrame& b)->bool
 				{
 					if (a.frame_number == b.frame_number) throw std::runtime_error("----Build中 存在两个具有相同framenum的帧----");
 					return a.frame_number < b.frame_number;
@@ -229,7 +229,7 @@ void build2bin(pugi::xml_document& doc, path&& outfile)
 	for (auto& _xatlas : xatlases)
 	{
 		auto* name = _xatlas.node().attribute("name").as_string();
-		file.add(Common::AtlasNode{name});
+		file.add(Common::Atlas{name});
 	}
 
 	file.writefile();
@@ -244,7 +244,7 @@ void anim2bin(pugi::xml_document& doc, path&& outfile)
 
 	Binary::AnimationWriter file(outfile);
 	file.out = outfile;
-	Common::AnimationNode anim{};
+	Common::Animation anim{};
 
 	auto xanims = doc.select_nodes("Anims/anim");
 	uint32_t unique_frameidx = 0;
@@ -262,7 +262,7 @@ void anim2bin(pugi::xml_document& doc, path&& outfile)
 
 		anim.frame_rate = xanim.attribute("framerate").as_float();
 
-		Common::AnimationFrameNode frame;
+		Common::AnimationFrame frame;
 		auto framecount = xanim.attribute("numframes").as_uint();
 		anim.frames.resize(framecount);		
 
@@ -275,7 +275,7 @@ void anim2bin(pugi::xml_document& doc, path&& outfile)
 			frame.h = xframe.attribute("h").as_float();
 
 			//event
-			Common::EventNode event{};
+			Common::Event event{};
 			for (auto& _xevent : xframe.select_nodes("event"))
 			{
 				auto event_name = _xevent.node().value();
@@ -284,7 +284,7 @@ void anim2bin(pugi::xml_document& doc, path&& outfile)
 			}
 
 			//element
-			Common::ElementNode elem{};
+			Common::Element elem{};
 			for (auto& _xelem : xframe.select_nodes("element"))
 			{
 				auto xelem = _xelem.node();

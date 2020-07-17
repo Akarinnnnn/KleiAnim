@@ -67,7 +67,7 @@ std::map<unsigned int,string> KleiAnim::Common::read_strhashtable(std::ifstream&
 	return ret;
 }
 
-std::wstring KleiAnim::Common::ToString(const ElementNode& elem)
+std::wstring KleiAnim::Common::ToString(const Element& elem)
 {
 	std::wostringstream _s;
 	_s << L"Name Hash = " << elem.name_hash << '\n'
@@ -78,16 +78,16 @@ std::wstring KleiAnim::Common::ToString(const ElementNode& elem)
 	return _s.str();
 }
 
-bool KleiAnim::Common::operator==(const ElementNode& l, const ElementNode& r)
+bool KleiAnim::Common::operator==(const Element& l, const Element& r)
 {
 	using namespace KleiAnim::Common;
 #ifdef _AMD64_
 	for (unsigned char i = 0; i < 5; i++)
-		if (reinterpret_cast<unsigned long long*>(const_cast<ElementNode*>(&l))[i] != reinterpret_cast<unsigned long long*>(const_cast<ElementNode*>(&r))[i])
+		if (reinterpret_cast<unsigned long long*>(const_cast<Element*>(&l))[i] != reinterpret_cast<unsigned long long*>(const_cast<Element*>(&r))[i])
 			return false;
 #elif defined(_X86_)
 	for (unsigned char i = 0; i < 10; i++)
-		if (reinterpret_cast<unsigned int*>(const_cast<ElementNode*>(&l))[i] != reinterpret_cast<unsigned int*>(const_cast<ElementNode*>(&r))[i])
+		if (reinterpret_cast<unsigned int*>(const_cast<Element*>(&l))[i] != reinterpret_cast<unsigned int*>(const_cast<Element*>(&r))[i])
 			return false;
 #endif
 	return true;

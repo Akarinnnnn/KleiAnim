@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)\PackZip-propsui.xml" />
+  </ItemGroup>
+  <Target Name="打包zip" AfterTargets="PostBuild">
+    <ItemGroup>
+      <PackZipDependencies Include=";$(OutDir)*.dll"/>
+    </ItemGroup>
+    <Copy SourceFiles="@(PackZipDependencies)" DestinationFolder="$(OutDir)$(ProjectName)\"/>
+    <Copy SourceFiles="$(OutDir)$(ProjectName).xml" DestinationFolder="$(OutDir)$(ProjectName)\" Condition="Exists('$(OutDir)$(ProjectName).lib')" />
+    <Copy SourceFiles="$(OutDir)$(ProjectName).lib" DestinationFolder="$(OutDir)$(ProjectName)\" Condition="Exists('$(OutDir)$(ProjectName).lib')" />
+    <Copy SourceFiles="$(OutDir)$(ProjectName).pdb" DestinationFolder="$(OutDir)$(ProjectName)\" Condition="Exists('$(OutDir)$(ProjectName).pdb')" />
+    <Copy SourceFiles="$(OutDir)$(ProjectName).exe" DestinationFolder="$(OutDir)$(ProjectName)\" Condition="Exists('$(OutDir)$(ProjectName).exe')" />
+    <Copy SourceFiles="@(PackZipOtherFiles)" DestinationFolder="$(OutDir)$(ProjectName)\" />
+    <ZipDirectory Overwrite="true" SourceDirectory="$(OutDir)$(ProjectName)\" DestinationFile="$(OutDir)..\$(ProjectName).$(Configuration).$(PlatformShortName).zip"/>
+  </Target>
+  <Target Name="BuildAndPack">
+    <ItemGroup Label="KleiAnimInclude">
+      <PackZipIncludeFiles Include="$(ProjectDir)$(PackZipIncludePath)\**\*.hpp"/>
+    </ItemGroup>
+    <Copy SourceFiles="@(PackZipIncludeFiles)" DestinationFolder="$(OutDir)$(ProjectName)\KleiAnim"/>
+    <CallTarget Targets="Build;打包zip"/>
+  </Target>
+</Project>

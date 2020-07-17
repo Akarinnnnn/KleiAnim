@@ -11,6 +11,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kleianim_test", "ktexlib_te
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "animc", "animc\animc.vcxproj", "{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git prop targets", "git prop targets", "{45B010A5-7430-4AFC-AA83-BC1658F7A65A}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		PackZip-propsui.xml = PackZip-propsui.xml
+		PackZip.targets = PackZip.targets
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

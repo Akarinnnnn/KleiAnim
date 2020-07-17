@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ProjectSchemaDefinitions
+   xmlns="clr-namespace:Microsoft.Build.Framework.XamlTypes;assembly=Microsoft.Build.Framework">
+  <Rule Name="PackZip" PageTemplate="tool" DisplayName="Pack Zip" SwitchPrefix="/" Order="70">
+    <Rule.Categories>
+      <Category Name="General" DisplayName="常规" />
+    </Rule.Categories>
+    <Rule.DataSource>
+      <DataSource Persistence="ProjectFile" ItemType="PackZip" Label="PackZip" HasConfigurationCondition="false"/>
+    </Rule.DataSource>
+    <StringListProperty
+        Name="PackZipOtherFiles"
+        DisplayName="其他需要添加到目标ZIP中的文件"
+        Description="指定一个或多个文件"
+        Category="General">
+    </StringListProperty>
+  </Rule>
+</ProjectSchemaDefinitions>

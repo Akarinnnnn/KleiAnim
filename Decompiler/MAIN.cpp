@@ -5,6 +5,7 @@
 #include <filesystem>
 #include "arg_parser.h"
 #include "../klei_anim/KleiAnim/xml.hpp"
+using namespace std::filesystem;
 
 using std::filesystem::path;
 wchar_t helpmsg[] = 
@@ -31,8 +32,22 @@ int wmain(int argc,wchar_t** argv)
 		std::filesystem::create_directories(out);//先创建文件夹，fopen等才能自动创建文件
 		{
 			using namespace KleiAnim::XML;
-			AnimBin2XML(input / L"anim.bin", out / path(L"anim.xml"));
-			BuildBin2XML(input / L"build.bin", out / path(L"build.xml"));
+			try
+			{
+				AnimBin2XML(input / L"anim.bin", out / path(L"anim.xml"));
+			}
+			catch (const filesystem_error& e)
+			{
+				std::cout << "缺少anim.bin，跳过" << e.what();
+			}
+			try
+			{
+				BuildBin2XML(input / L"build.bin", out / path(L"build.xml"));
+			}
+			catch (const filesystem_error& e)
+			{
+				std::cout << "缺少build.bin，跳过" << e.what();
+			}
 		}
 	}
 	catch (const std::exception& e)

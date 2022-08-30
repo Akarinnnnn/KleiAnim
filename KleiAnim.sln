@@ -1,16 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29709.97
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "animd", "Decompiler\Decompiler.vcxproj", "{7C7C79AB-0A4E-4EAA-8866-48CA1886F5B8}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "klei_anim", "klei_anim\klei_anim.vcxproj", "{859DBF5C-CE25-4DB1-9789-5063CA14A0EE}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kleianim_test", "ktexlib_test\ktexlib_test.vcxproj", "{51D4D048-34B7-4C95-AA9A-79A75438210D}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "animc", "animc\animc.vcxproj", "{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git prop targets", "git prop targets", "{45B010A5-7430-4AFC-AA83-BC1658F7A65A}"
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
@@ -21,6 +13,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git prop targets", "git pro
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "animasm", "animasm\animasm.vcxproj", "{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "animdasm", "animdasm\animdasm.vcxproj", "{7C7C79AB-0A4E-4EAA-8866-48CA1886F5B8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "klei_anim", "klei_anim\klei_anim.vcxproj", "{859DBF5C-CE25-4DB1-9789-5063CA14A0EE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kleianim_test", "ktexlib_test\ktexlib_test.vcxproj", "{51D4D048-34B7-4C95-AA9A-79A75438210D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -29,6 +29,14 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Debug|x64.ActiveCfg = Debug|x64
+		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Debug|x64.Build.0 = Debug|x64
+		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Debug|x86.ActiveCfg = Debug|Win32
+		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Debug|x86.Build.0 = Debug|Win32
+		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Release|x64.ActiveCfg = Release|x64
+		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Release|x64.Build.0 = Release|x64
+		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Release|x86.ActiveCfg = Release|Win32
+		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Release|x86.Build.0 = Release|Win32
 		{7C7C79AB-0A4E-4EAA-8866-48CA1886F5B8}.Debug|x64.ActiveCfg = Debug|x64
 		{7C7C79AB-0A4E-4EAA-8866-48CA1886F5B8}.Debug|x64.Build.0 = Debug|x64
 		{7C7C79AB-0A4E-4EAA-8866-48CA1886F5B8}.Debug|x86.ActiveCfg = Debug|Win32
@@ -53,14 +61,6 @@ Global
 		{51D4D048-34B7-4C95-AA9A-79A75438210D}.Release|x64.Build.0 = Release|x64
 		{51D4D048-34B7-4C95-AA9A-79A75438210D}.Release|x86.ActiveCfg = Release|Win32
 		{51D4D048-34B7-4C95-AA9A-79A75438210D}.Release|x86.Build.0 = Release|Win32
-		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Debug|x64.ActiveCfg = Debug|x64
-		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Debug|x64.Build.0 = Debug|x64
-		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Debug|x86.ActiveCfg = Debug|Win32
-		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Debug|x86.Build.0 = Debug|Win32
-		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Release|x64.ActiveCfg = Release|x64
-		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Release|x64.Build.0 = Release|x64
-		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Release|x86.ActiveCfg = Release|Win32
-		{A32296B6-9FB5-4D68-A7C0-EBC6035B0FB6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -48,44 +48,48 @@ Microsoft::VisualStudio::CppUnitTestFramework::ToString<KleiAnim::Common::Facing
 (const KleiAnim::Common::Facing& f)
 {
 	using facing = KleiAnim::Common::Facing;
+	facing f = f;
 	std::wostringstream _s;
 	switch (f)
 	{
 	case facing::All:
 		_s << L"all direction";
 		break;
-		//[[fallthrough]]//这是故意的
 	case facing::All45:
 		_s << L"all 45";
 		break;
 	case facing::All90:
 		_s << L"all 90";
 		break;
-		//[[fallthrough]]//标记一下
-	case facing::Down:
-		_s << L"down";
-	case facing::DownLeft:
-		_s << L"down left";
-	case facing::DownRight:
-		_s << L"down right";
-	case facing::Left:
-		_s << L"left";
-	case facing::Right:
-		_s << L"right";
-	case facing::Up:
-		_s << L"up";
-	case facing::UpLeft:
-		_s << L"up left";
-	case facing::UpRight:
-		_s << L"up right";
-		break;
-	case facing::Invalid:
-		_s << L"invalid direction(0x00ui8)";
-		break;
-	default:
-		Logger::WriteMessage(L"unknown direction??????\ncheck stacktrace.");
-		break;
 	}
+
+	if (f == facing::Down) 
+		_s << L"down";
+	
+	if (f == facing::DownLeft) 
+		_s << L"down left";
+	
+	if (f == facing::DownRight) 
+		_s << L"down right";
+	
+	if (f == facing::Left) 
+		_s << L"left";
+	
+	if (f == facing::Right) 
+		_s << L"right";
+	
+	if (f == facing::Up) 
+		_s << L"up";
+	
+	if (f == facing::UpLeft) 
+		_s << L"up left";
+	
+	if (f == facing::UpRight) 
+		_s << L"up right";
+	
+	if (f == facing::Invalid) 
+		_s << L"invalid direction(0x00ui8)";
+	
 	return _s.str();
 }
 

@@ -163,7 +163,10 @@ namespace ktexlibtest
 				{ 19,1,10000,4.1f,4.2f,4.3f,4.4f,4.5f,4.6f,4.7f },
 				{ 20,1,10000,4.1f,4.2f,4.3f,4.4f,4.5f,4.6f,4.7f },
 			};
-			std::vector<Element> actual = st_read_elem(std::ifstream("./elem_mtread.fakebin", ios::binary | ios::in), 20);
+			
+			std::ifstream file("./elem_mtread.fakebin", ios::binary | ios::in);
+
+			std::vector<Element> actual = st_read_elem(file, 20);
 			for (size_t i = 0; i < 20; i++)
 			{
 				Assert::IsTrue(excepted[i] == actual[i], (L"NE,i = " + ToString(i)).c_str());

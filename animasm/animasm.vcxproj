@@ -156,11 +156,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Decompiler\arg_parser.cpp" />
+    <ClCompile Include="..\animdasm\arg_parser.cpp" />
     <ClCompile Include="MAIN.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Decompiler\arg_parser.h" />
+    <ClInclude Include="..\animdasm\arg_parser.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\klei_anim\klei_anim.vcxproj">

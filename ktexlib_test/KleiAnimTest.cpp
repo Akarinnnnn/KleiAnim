@@ -45,10 +45,10 @@ Microsoft::VisualStudio::CppUnitTestFramework::ToString <KleiAnim::Common::Eleme
 
 template<> std::wstring 
 Microsoft::VisualStudio::CppUnitTestFramework::ToString<KleiAnim::Common::Facing>
-(const KleiAnim::Common::Facing& f)
+(const KleiAnim::Common::Facing& f1)
 {
 	using facing = KleiAnim::Common::Facing;
-	facing f = f;
+	facing f = f1;
 	std::wostringstream _s;
 	switch (f)
 	{

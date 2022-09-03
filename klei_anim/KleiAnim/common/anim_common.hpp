@@ -434,7 +434,7 @@ namespace KleiAnim
 				symbol_count(symbol_count),
 				frame_count(frame_count),
 				build_name(build_name),
-				atlases(atlases),
+				materials(atlases),
 				symbols(symbols),
 				vertices(vertices)
 			{}
@@ -451,7 +451,7 @@ namespace KleiAnim
 			unsigned int frame_count = 0;
 			std::string build_name;
 
-			std::vector<Common::Atlas> atlases;
+			std::vector<Common::Atlas> materials;
 			std::vector<Common::Symbol> symbols;
 			std::vector<Common::AlphaVertex> vertices;
 		};

@@ -29,7 +29,6 @@ using std::ios;
 
 //还不如st_read_elem，不信看看测试
 //留着以后看看能不能改进
-//定义MT_READ_ELEM以使用这个sb函数
 void mt_read_elem(const unsigned int count,
 	std::vector<::KleiAnim::Common::Element>& out,
 	const std::filesystem::path& path,
@@ -141,12 +140,6 @@ AnimationReader::AnimationReader(const std::filesystem::path & animpath)
 		{
 			anim.name = Common::read_str(file);
 			file.read(TO_PCHAR(anim.facing), 1);
-
-			if (anim.facing != Common::Facing::All)
-			{
-				KleiAnimLog::write() << animpath << LOG(" 不是一段全朝向的动画。") << endl;
-			}
-
 			file.read(TO_PCHAR(anim.rootsym_hash), 4);
 			file.read(TO_PCHAR(anim.frame_rate), sizeof(float));
 		}
@@ -285,7 +278,7 @@ BuildReader::BuildReader(const std::filesystem::path & buildpath)
 	{
 		std::error_code ec;
 		if (!std::filesystem::exists(buildpath, ec))
-			throw std::system_error(ec, "文件不存在");
+			throw std::filesystem::filesystem_error("文件不存在", ec);
 	}
 
 	if (!file.is_open())
@@ -300,20 +293,21 @@ BuildReader::BuildReader(const std::filesystem::path & buildpath)
 	}
 	
 	file.read(TO_PCHAR(BuildBase::symbol_count), 8);
-	build_name = std::move(Common::read_str(file));
+	build_name = Common::read_str(file);
 	symbols.reserve(BuildBase::symbol_count);
-	//atlas
+	// materials
 	{
 		unsigned int atlas_count = 0;
 		file.read(TO_PCHAR(atlas_count), 4);
-		atlases.reserve(atlas_count);
+		materials.reserve(atlas_count);
 
 		for (unsigned int i = 0; i < atlas_count; i++)
-			atlases.push_back({ Common::read_str(file) });
+			materials.push_back({ Common::read_str(file) });
 	}
 
 	//symbol
 	unsigned int frame_total = 0;
+
 	{
 		for (unsigned int i = 0; i < BuildBase::symbol_count; i++)
 		{
@@ -326,7 +320,7 @@ BuildReader::BuildReader(const std::filesystem::path & buildpath)
 			for (unsigned int i = 0; i < cur_frame_count; i++)
 			{
 				file.read(TO_PCHAR(curframe), 32);
-				symbol.frames.push_back(std::move(curframe));
+				symbol.frames.push_back(curframe);
 			}
 			frame_total += cur_frame_count;
 			symbols.push_back(std::move(symbol));
@@ -373,7 +367,7 @@ unsigned int KleiAnim::Binary::BuildReader::symbol_count() const
 
 unsigned int KleiAnim::Binary::BuildReader::atlas_count() const
 {
-	return atlases.size();
+	return materials.size();
 }
 
 unsigned int KleiAnim::Binary::BuildReader::vertex_count() const
@@ -398,7 +392,7 @@ const Common::Symbol& KleiAnim::Binary::BuildReader::operator[](const size_t i) 
 
 const Common::Atlas& KleiAnim::Binary::BuildReader::atlas(const size_t i) const
 {
-	return atlases.at(i);
+	return materials.at(i);
 }
 
 const Common::AlphaVertex& KleiAnim::Binary::BuildReader::vertex(const size_t i) const
@@ -595,9 +589,9 @@ void KleiAnim::Binary::BuildWriter::writestream(std::ostream& file)
 	//atlas
 	{
 		unsigned int atlas_count;
-		atlases.size() > UINT32_MAX ? throw std::overflow_error("atlases.size() > UINT32_MAX") : atlas_count = atlases.size();
+		materials.size() > UINT32_MAX ? throw std::overflow_error("atlases.size() > UINT32_MAX") : atlas_count = materials.size();
 		file.write(TO_PCHAR(atlas_count), 4);
-		for (auto& atlas : atlases)
+		for (auto& atlas : materials)
 		{
 			write_str(atlas.name, file);
 		}
@@ -670,7 +664,7 @@ void KleiAnim::Binary::BuildWriter::add(const Common::AlphaVertex& vert)
 
 void KleiAnim::Binary::BuildWriter::add(const Common::Atlas& atlas)
 {
-	BuildBase::atlases.push_back(atlas);
+	BuildBase::materials.push_back(atlas);
 }
 
 void KleiAnim::Binary::BuildWriter::add(const std::array<Common::AlphaVertex, 6> & vertices)
@@ -683,7 +677,7 @@ void KleiAnim::Binary::BuildWriter::add(const std::array<Common::AlphaVertex, 6>
 
 void KleiAnim::Binary::BuildWriter::add(Common::Atlas&& atlas)
 { 
-	BuildBase::atlases.push_back(atlas);
+	BuildBase::materials.push_back(atlas);
 }
 
 void KleiAnim::Binary::BuildWriter::add_hashstringpair(unsigned int hash, std::string&& string)
@@ -716,7 +710,7 @@ std::wstring KleiAnim::Common::BuildBase::ToString()
 		<< L"帧数量：" << frame_count << L'\n'
 		<< L"atlas：" << L"\n";
 
-	for (auto& atlas : atlases)
+	for (auto& atlas : materials)
 	{
 		o << L"  " << atlas.name.c_str() << L'\n';
 	}

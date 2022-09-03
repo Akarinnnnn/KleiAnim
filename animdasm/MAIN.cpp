@@ -35,18 +35,11 @@ int wmain(int argc,wchar_t** argv)
 			try
 			{
 				AnimBin2XML(input / L"anim.bin", out / path(L"anim.xml"));
-			}
-			catch (const filesystem_error& e)
-			{
-				std::cout << "缺少anim.bin，跳过" << e.what();
-			}
-			try
-			{
 				BuildBin2XML(input / L"build.bin", out / path(L"build.xml"));
 			}
 			catch (const filesystem_error& e)
 			{
-				std::cout << "缺少build.bin，跳过" << e.what();
+				std::cout << "缺少" << e.path1().filename() << e.what();
 			}
 		}
 	}

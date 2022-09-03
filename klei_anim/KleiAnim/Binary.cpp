@@ -286,30 +286,35 @@ BuildReader::BuildReader(const std::filesystem::path & buildpath)
 		throw std::invalid_argument("打开失败");
 	}
 
+	// 4cc version
 	file.read(TO_PCHAR(cc4), 8);
 	if (cc4 != valid_cc4 || version != cur_version)
 	{
 		throw Exception::invalid_file("应提供正确的build.bin", cc4, version);
 	}
 	
+	// nSymbols nFrames
 	file.read(TO_PCHAR(BuildBase::symbol_count), 8);
+	// build name
 	build_name = Common::read_str(file);
 	symbols.reserve(BuildBase::symbol_count);
 	// materials
 	{
-		unsigned int atlas_count = 0;
+		unsigned int atlas_count = 0; // number
 		file.read(TO_PCHAR(atlas_count), 4);
 		materials.reserve(atlas_count);
 
 		for (unsigned int i = 0; i < atlas_count; i++)
-			materials.push_back({ Common::read_str(file) });
+			materials.push_back({ Common::read_str(file) }); // tex name
 	}
 
-	//symbol
-	unsigned int frame_total = 0;
-
+	//symbol数量
+	unsigned int symbol_total = 0;
+	unsigned int frames_found = 0;
+	file.read(TO_PCHAR(symbol_total), sizeof(symbol_total));
 	{
-		for (unsigned int i = 0; i < BuildBase::symbol_count; i++)
+		// 单个 symbol
+		for (unsigned int i = 0; i < symbol_total; i++)
 		{
 			Common::Symbol symbol;
 			Common::BuildFrame curframe;
@@ -317,36 +322,38 @@ BuildReader::BuildReader(const std::filesystem::path & buildpath)
 			file.read(TO_PCHAR(symbol.name_hash), 4);
 			file.read(TO_PCHAR(cur_frame_count), 4);
 
+			// frames
 			for (unsigned int i = 0; i < cur_frame_count; i++)
 			{
 				file.read(TO_PCHAR(curframe), 32);
 				symbol.frames.push_back(curframe);
 			}
-			frame_total += cur_frame_count;
+			frames_found += cur_frame_count;
 			symbols.push_back(std::move(symbol));
+
+			//alpha vertices
+			{
+				unsigned int vertex_count = 0;
+				Common::AlphaVertex avn;
+				file.read(TO_PCHAR(vertex_count), 4);
+				BuildBase::vertices.reserve(vertex_count);
+				for (unsigned int i = 0; i < vertex_count; i++)
+				{
+					file.read(TO_PCHAR(avn), 24);
+					BuildBase::vertices.push_back(avn);
+				}
+			}
 		}
 	}
 
-	//alpha vertex
-	{
-		unsigned int vertex_count = 0;
-		Common::AlphaVertex avn;
-		file.read(TO_PCHAR(vertex_count), 4);
-		BuildBase::vertices.reserve(vertex_count);
-		for (unsigned int i = 0; i < vertex_count; i++)
-		{
-			file.read(TO_PCHAR(avn), 24);
-			BuildBase::vertices.push_back(avn);
-		}
-	}
 
 	str_table = Common::read_strhashtable(file);
 
-	if (frame_total != frame_count)
+	if (frames_found != frame_count)
 	{
 		KleiAnimLog::write() << LOG("警告：帧数量与实际不符。\n") <<
 			LOG("预期数量 实际数量\n") <<
-			frame_count << ' ' << frame_total << endl;
+			frame_count << ' ' << frames_found << endl;
 	}
 }
 

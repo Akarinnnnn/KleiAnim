@@ -232,7 +232,7 @@ namespace KleiAnim
 
 
 			unsigned int vertbox_startindex = 0;
-			unsigned int alpha_count = 0;
+			std::vector<Common::AlphaVertex> vertices;
 		};
 
 		/// <summary>
@@ -436,7 +436,6 @@ namespace KleiAnim
 				build_name(build_name),
 				materials(atlases),
 				symbols(symbols),
-				vertices(vertices)
 			{}
 
 			std::wstring ToString();
@@ -449,11 +448,12 @@ namespace KleiAnim
 
 			unsigned int symbol_count = 0;
 			unsigned int frame_count = 0;
+			// int event_count = 0;
+
 			std::string build_name;
 
 			std::vector<Common::Atlas> materials;
 			std::vector<Common::Symbol> symbols;
-			std::vector<Common::AlphaVertex> vertices;
 		};
 
 		constexpr uint32_t common_license_hash[3] = {

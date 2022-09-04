@@ -293,8 +293,10 @@ BuildReader::BuildReader(const std::filesystem::path & buildpath)
 		throw Exception::invalid_file("应提供正确的build.bin", cc4, version);
 	}
 	
+	//
+	auto pos = file.tellg();
 	// nSymbols nFrames
-	file.read(TO_PCHAR(BuildBase::symbol_count), 8);
+	file.read(TO_PCHAR(BuildBase::symbol_count), 3 * sizeof(int));
 	// build name
 	build_name = Common::read_str(file);
 	symbols.reserve(BuildBase::symbol_count);
@@ -309,28 +311,25 @@ BuildReader::BuildReader(const std::filesystem::path & buildpath)
 	}
 
 	//symbol数量
-	unsigned int symbol_total = 0;
-	unsigned int frames_found = 0;
-	file.read(TO_PCHAR(symbol_total), sizeof(symbol_total));
+	unsigned int totalSymbol = BuildBase::symbol_count;
+	unsigned int frames_found = 0 ;
+	// file.read(TO_PCHAR(totalSymbol), sizeof(totalSymbol));
 	{
 		// 单个 symbol
-		for (unsigned int i = 0; i < symbol_total; i++)
+		for (unsigned int i = 0; i < totalSymbol; i++)
 		{
 			Common::Symbol symbol;
 			Common::BuildFrame curframe;
 			unsigned int cur_frame_count = 0;
 			file.read(TO_PCHAR(symbol.name_hash), 4);
 			file.read(TO_PCHAR(cur_frame_count), 4);
-
+			symbol.frames.reserve(cur_frame_count);
 			// frames
 			for (unsigned int i = 0; i < cur_frame_count; i++)
 			{
 				file.read(TO_PCHAR(curframe), 32);
 				symbol.frames.push_back(curframe);
 			}
-			frames_found += cur_frame_count;
-			symbols.push_back(std::move(symbol));
-
 			//alpha vertices
 			{
 				unsigned int vertex_count = 0;
@@ -340,9 +339,12 @@ BuildReader::BuildReader(const std::filesystem::path & buildpath)
 				for (unsigned int i = 0; i < vertex_count; i++)
 				{
 					file.read(TO_PCHAR(avn), 24);
-					BuildBase::vertices.push_back(avn);
+					Common::BuildFrame::vertices.push_back(avn);
 				}
 			}
+
+			frames_found += cur_frame_count;
+			symbols.push_back(std::move(symbol));
 		}
 	}
 

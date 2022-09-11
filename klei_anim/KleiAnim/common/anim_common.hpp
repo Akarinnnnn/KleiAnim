@@ -366,7 +366,7 @@ namespace KleiAnim
 			o << L"Frame number = " << elem.frame_number << L'\n';
 			o << L"Duration = " << elem.duration << L'\n';
 			o << L"x,y,w,h = " << elem.x << L',' << elem.y << L',' << elem.w << L',' << elem.h << L'\n';
-			o << L"alpha_index = " << elem.vertbox_startindex << L'\n' << L"alpha_count = " << elem.alpha_count << L'\n';
+			o << L"alpha_index = " << elem.vertbox_startindex << L'\n' << L"vertcount = " << elem.vertices.size() << L'\n';
 			return o.str();
 		}
 
@@ -435,7 +435,7 @@ namespace KleiAnim
 				frame_count(frame_count),
 				build_name(build_name),
 				materials(atlases),
-				symbols(symbols),
+				symbols(symbols)
 			{}
 
 			std::wstring ToString();

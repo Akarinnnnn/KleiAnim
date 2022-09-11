@@ -335,11 +335,11 @@ BuildReader::BuildReader(const std::filesystem::path & buildpath)
 				unsigned int vertex_count = 0;
 				Common::AlphaVertex avn;
 				file.read(TO_PCHAR(vertex_count), 4);
-				BuildBase::vertices.reserve(vertex_count);
+				curframe.vertices.reserve(vertex_count);
 				for (unsigned int i = 0; i < vertex_count; i++)
 				{
 					file.read(TO_PCHAR(avn), 24);
-					Common::BuildFrame::vertices.push_back(avn);
+					curframe.vertices.push_back(avn);
 				}
 			}
 
@@ -379,11 +379,6 @@ unsigned int KleiAnim::Binary::BuildReader::atlas_count() const
 	return materials.size();
 }
 
-unsigned int KleiAnim::Binary::BuildReader::vertex_count() const
-{
-	return BuildBase::vertices.size();
-}
-
 std::string KleiAnim::Binary::BuildReader::name() const
 {
 	return build_name;
@@ -404,23 +399,6 @@ const Common::Atlas& KleiAnim::Binary::BuildReader::atlas(const size_t i) const
 	return materials.at(i);
 }
 
-const Common::AlphaVertex& KleiAnim::Binary::BuildReader::vertex(const size_t i) const
-{
-	return BuildBase::vertices.at(i);
-}
-
-std::array<Common::AlphaVertex, 6> KleiAnim::Binary::BuildReader::vertices(const unsigned int start) const
-{
-	if (BuildBase::vertices.size() < (size_t(start) * size_t(6) + size_t(6)))
-		throw std::out_of_range("并没有这么多组");
-
-	std::array<Common::AlphaVertex, 6> ret;
-	auto beg = BuildBase::vertices.data() + size_t(6) * size_t(start);
-	auto d = ret.data();
-	for (unsigned int i = 0; i < 6; i++)
-		d[i] = beg[i];
-	return ret;
-}
 
 const Common::BuildFrame& KleiAnim::Binary::BuildReader::frame(const size_t sym, const size_t i) const
 {
